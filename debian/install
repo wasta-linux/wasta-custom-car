@@ -1,0 +1,5 @@
+install-files/fonts                 usr/share
+install-files/gschema-overrides/*   usr/share/glib-2.0/schemas
+install-files/kmfl                  usr/share
+install-files/wasta-resources       usr/share
+wasta-custom-car                    usr/share

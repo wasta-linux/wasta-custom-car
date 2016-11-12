@@ -1,0 +1,24 @@
+# ==============================================================================
+# z_30_wasta-custom-car.gschema.override
+#
+#   use "dconf watch /" and/or dconf-editor to find settings to change
+#
+#   If same key overridden in 2 files, "last wins" regarding filenames
+#       (so a "z_10_*" filename would win over a "10_*" filename)
+#       We'll set wasta-core to use "z_10_*" filenames, regional customizations
+#       can go with "z_30_*" filenames.  Reason need "z" instead of just going
+#       with numbers is because MINT already has a "linuxmint-artwork.gschema.override"
+#       file that totally thwarts the number scheme!
+#
+#   After modifying these .override files, reload with:
+#       glib-compile-schemas /usr/share/glib-2.0/schemas/
+#
+#   2016-11-12 rik: initial script
+#
+# ==============================================================================
+
+# EXAMPLE: change cinnamon panel to top and make it 41px tall (default is 29)
+#[org.cinnamon]
+#panels-enabled = ['1:0:top']
+#panels-height = ['1:41']
+
