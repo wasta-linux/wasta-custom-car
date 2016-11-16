@@ -1,11 +1,11 @@
 Source: wasta-custom-car
 Section: utils
 Priority: optional
-Maintainer: Rik Shaw <rikshaw76@gmail.com>
+Maintainer: Nate Marti <nate_marti@sil.org>
 Build-Depends: debhelper (>= 9.0.0)
 Standards-Version: 3.9.7
 
-Package: wasta-custom-abc
+Package: wasta-custom-car
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends:

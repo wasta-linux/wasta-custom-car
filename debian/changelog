@@ -1,3 +1,21 @@
+wasta-custom-car (0.1.1) UNRELEASED; urgency=medium
+
+  * Additional edit to correct package name
+
+ -- Nate Marti <nate_marti@sil.org>  Wed, 16 Nov 2016 10:15:08 -0600
+
+wasta-custom-car (0.1.1) xenial; urgency=low
+
+  * Corrected package name folder
+
+ -- Nate Marti <nate_marti@sil.org>  Wed, 16 Nov 2016 10:12:54 -0600
+
+wasta-custom-car (0.1.1) xenial; urgency=medium
+
+  * Added ressources linguistiques extension to LibreOffice
+
+ -- Nate Marti <nate_marti@sil.org>  Wed, 16 Nov 2016 10:06:56 -0600
+
 wasta-custom-car (0.1.0) xenial; urgency=low
 
   * Initial Release.

@@ -8,6 +8,7 @@
 #       only intended to be run at package installation.  
 #
 #   2016-11-12 rik: initial script
+#   2016-11-16 nate: added French resources extension to LO
 #
 # ==============================================================================
 
@@ -53,8 +54,27 @@ fi
 echo
 echo "*** Installing/Updating Wasta English Intl Defaults LO Extension"
 echo
-
 unopkg add --shared $DIR/resources/wasta-english-intl-defaults.oxt
+
+# ------------------------------------------------------------------------------
+# LibreOffice Ressources Linguistiques Extension install (for all users)
+# ------------------------------------------------------------------------------
+
+# REMOVE "Ressources Linguistiques" extension: only way to update is
+#   remove then reinstall
+EXT_FOUND=$(ls /var/spool/libreoffice/uno_packages/cache/uno_packages/*/lo-oo-ressources-linguistiques.oxt* 2> /dev/null)
+
+if [ "$EXT_FOUND" ];
+then
+    unopkg remove --shared lo-oo-ressources-linguistiques.oxt
+fi
+
+# Install lo-oo-ressources-linguistiques.oxt
+echo
+echo "*** Installing/Upating Ressources Linguistiques LO Extension"
+echo
+unopkg add --shared $DIR/resources/lo-oo-ressources-linguistiques.oxt
+
 
 # IF user has not initialized LibreOffice, then when adding the above shared
 #   extension, the user's LO settings are created, but owned by root so
