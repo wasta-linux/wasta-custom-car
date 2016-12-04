@@ -1,8 +1,9 @@
-wasta-custom-car (0.1.1) UNRELEASED; urgency=medium
+wasta-custom-car (0.1.2) xenial; urgency=medium
 
   * Additional edit to correct package name
+  * Added Paratext & AdaptIt packages
 
- -- Nate Marti <nate_marti@sil.org>  Wed, 16 Nov 2016 10:15:08 -0600
+ -- Nate Marti <nate_marti@sil.org>  Sun, 04 Dec 2016 17:27:17 -0600
 
 wasta-custom-car (0.1.1) xenial; urgency=low
 
