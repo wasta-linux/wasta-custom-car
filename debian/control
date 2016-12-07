@@ -7,7 +7,7 @@ Standards-Version: 3.9.7
 
 Package: wasta-custom-car
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, paratext-7.5, adaptit, adaptit-docs
+Depends: ${shlibs:Depends}, ${misc:Depends}, language-pack-fr, paratext-7.5, adaptit, adaptit-docs
 Recommends:
 Description: Wasta-Linux CAR Customization
  Sets up Wasta-Linux machine for use in CAR
