@@ -12,6 +12,7 @@
 #
 # ==============================================================================
 
+
 # ------------------------------------------------------------------------------
 # Check to ensure running as root
 # ------------------------------------------------------------------------------
@@ -25,6 +26,7 @@ then
 	exit 1
 fi
 
+
 # ------------------------------------------------------------------------------
 # Initial Setup
 # ------------------------------------------------------------------------------
@@ -35,6 +37,7 @@ echo
 
 # setup directory for reference later
 DIR=/usr/share/wasta-custom-car
+
 
 # ------------------------------------------------------------------------------
 # LibreOffice Preferences Extension install (for all users)
@@ -96,12 +99,26 @@ do
     fi
 done
 
+
+# ------------------------------------------------------------------------------
+# Change system-wide locale settings
+# ------------------------------------------------------------------------------
+
+# Substitute locale file used in place of /etc/default/locale
+update-locale LANG="fr_FR.UTF-8"
+update-locale LANGUAGE="fr_FR"
+update-locale LC_ALL="fr_FR.UTF-8"
+# Restart required for changes to take effect. Note added below.
+
+
 # ------------------------------------------------------------------------------
 # Finished
 # ------------------------------------------------------------------------------
 
 echo
 echo "*** Finished with wasta-custom-car-postinst.sh"
+echo
+echo "*** Restart now for Language settings to take effect"
 echo
 
 exit 0

@@ -7,12 +7,12 @@ Standards-Version: 3.9.7
 
 Package: wasta-custom-car
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, adaptit, adaptit-docs, language-pack-fr, paratext-7.5
+Depends: ${shlibs:Depends}, ${misc:Depends}, adaptit, adaptit-docs, firefox-locale-fr, gimp-help-fr, hunspell-fr, hyphen-fr, language-pack-fr, language-pack-gnome-fr, libreoffice-help-fr, libreoffice-l10n-fr, mythes-fr, paratext-7.5, thunderbird-locale-fr, wfrench
 Recommends:
 Description: Wasta-Linux CAR Customization
  Sets up Wasta-Linux machine for use in CAR
  Changes include:
   - Installs Paratext 7.5
   - Installs AdaptIt & AdaptIt Documentation
-  - Adds French language pack to OS
+  - Adds French system & app language packs to OS
   - Adds French Dictionary extension to LibreOffice
