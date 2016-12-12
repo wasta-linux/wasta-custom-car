@@ -22,3 +22,6 @@
 #panels-enabled = ['1:0:top']
 #panels-height = ['1:41']
 
+# Use natural scrolling for touchpad
+[org.cinnamon.settings-daemon.peripherals.touchpad]
+natural-scroll = TRUE
