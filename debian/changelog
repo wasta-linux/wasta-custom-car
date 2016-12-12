@@ -1,3 +1,9 @@
+wasta-custom-car (0.1.6) UNRELEASED; urgency=medium
+
+  * Added touchpad natural-scroll preference
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 12 Dec 2016 11:16:53 -0600
+
 wasta-custom-car (0.1.5) xenial; urgency=medium
 
   * Edited to force locale-gen
