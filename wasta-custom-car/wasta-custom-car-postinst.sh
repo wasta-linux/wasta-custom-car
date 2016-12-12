@@ -104,12 +104,16 @@ done
 # Change system-wide locale settings
 # ------------------------------------------------------------------------------
 
-# Substitute locale file used in place of /etc/default/locale
+# First we need to generate the newly-downloaded French (France) locale
+locale-gen fr_FR.UTF-8
+
+# Now we can make specific locale updates
 update-locale LANG="fr_FR.UTF-8"
 update-locale LANGUAGE="fr_FR"
 update-locale LC_ALL="fr_FR.UTF-8"
-# Restart required for changes to take effect. Note added below.
 
+# Log out/in required for changes to take effect. So, for lack of a better solution, request a reboot
+/usr/share/update-notifier/notify-reboot-required
 
 # ------------------------------------------------------------------------------
 # Finished
@@ -117,8 +121,6 @@ update-locale LC_ALL="fr_FR.UTF-8"
 
 echo
 echo "*** Finished with wasta-custom-car-postinst.sh"
-echo
-echo "*** Restart now for Language settings to take effect"
 echo
 
 exit 0
