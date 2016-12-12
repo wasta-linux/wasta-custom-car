@@ -32,5 +32,5 @@
 natural-scroll = true
 
 # Change setting for Unity
-[org.gnome.settings-daemon.peripherals.touchpad]
+[org.gnome.desktop.peripherals.touchpad]
 natural-scroll = true
