@@ -1,3 +1,9 @@
+wasta-custom-car (0.1.5) xenial; urgency=medium
+
+  * Edited to force locale-gen
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 12 Dec 2016 00:49:14 -0600
+
 wasta-custom-car (0.1.4) xenial; urgency=medium
 
   * Added additional app translations
