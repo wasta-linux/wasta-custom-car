@@ -112,8 +112,6 @@ update-locale LANG="fr_FR.UTF-8"
 update-locale LANGUAGE="fr_FR"
 update-locale LC_ALL="fr_FR.UTF-8"
 
-# Log out/in required for changes to take effect. So, for lack of a better solution, request a reboot
-/usr/share/update-notifier/notify-reboot-required
 
 # ------------------------------------------------------------------------------
 # Finished
