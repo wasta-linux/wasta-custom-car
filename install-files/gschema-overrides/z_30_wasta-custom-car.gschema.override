@@ -34,3 +34,11 @@ natural-scroll = true
 # Change setting for Unity
 [org.gnome.desktop.peripherals.touchpad]
 natural-scroll = true
+
+# Set background for Unity (apparently didn't work right in Wasta Setup)
+[org.gnome.desktop.background]
+color-shading-type = 'solid'
+picture-options = 'zoom'
+picture-uri = 'file:///usr/share/backgrounds/Tramonto_a_Scalea_by_Renatvs88.jpg'
+primary-color = '#000000'
+secondary-color = '#000000'
