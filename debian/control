@@ -7,8 +7,8 @@ Standards-Version: 3.9.7
 
 Package: wasta-custom-car
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, adaptit, adaptit-docs, firefox-locale-fr, gimp-help-fr, hunspell-fr, hyphen-fr, language-pack-fr, language-pack-gnome-fr, libreoffice-help-fr, libreoffice-l10n-fr, mythes-fr, paratext-7.5, thunderbird-locale-fr, wfrench
-Recommends:
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: adaptit, adaptit-docs, firefox-locale-fr, gimp-help-fr, hunspell-fr, hyphen-fr, language-pack-fr, language-pack-gnome-fr, libreoffice-help-fr, libreoffice-l10n-fr, mythes-fr, paratext-7.5, thunderbird-locale-fr, wfrench
 Description: Wasta-Linux CAR Customization
  Sets up Wasta-Linux machine for use in CAR
  Changes include:
