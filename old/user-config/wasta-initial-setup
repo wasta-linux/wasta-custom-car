@@ -1,0 +1,228 @@
+#!/bin/bash
+
+# ==============================================================================
+# wasta-initial-setup
+#
+#   This script is run on a clean install of Ubuntu to 'wasta-ize' it.
+#
+#   2014-06-12 rik: initial script
+#   2014-12-21 rik: re-working to place in /usr/bin so found in path.
+#   2015-10-25 rik: re-working for Ubuntu 15.10
+#       - accounting for 'auto' input parameter: will then run
+#         non-interactively.
+#   2018-02-28 rik: calling wasta-reset with logged in user instead of root
+#       - calling app-adjustments.sh script (from wasta-multidesktop) if exists
+#   2019-02-23 rik: installing hwe stack
+#   2019-03-08 rik: setting redmond7 as wasta-layout system default
+#
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Setup script to run with superuser permissions
+# ------------------------------------------------------------------------------
+if [ "$(whoami)" != "root" ]; then
+    echo
+    echo "This script needs to run with superuser permissions."
+    echo "----------------------------------------------------"
+    # below will return <blank> if user not in sudo group
+    OUT=$(groups $(whoami) | grep "sudo")
+
+    if [ "$OUT" ]; then
+        # user has sudo permissions: use them to re-run the script
+        echo
+        echo "If prompted, enter the sudo password."
+        #re-run script with sudo
+        sudo bash $0 $*
+        LASTERRORLEVEL=$?
+    else
+        #user doesn't have sudo: limited user, so prompt for sudo user
+        until [ "$OUT" ]; do
+            echo
+            echo "Current user doesn't have sudo permissions."
+            echo
+            read -p "Enter admin id (blank for root) to run this script:  " SUDO_ID
+
+            # set SUDO_ID to root if not entered
+            if [ "$SUDO_ID" ]; then
+                OUT=$(groups ${SUDO_ID} | grep "sudo")
+            else
+                SUDO_ID="root"
+                # manually assign $OUT to anything because we will use root!
+                OUT="root"
+            fi
+        done
+
+        # re-run script with $SUDO_ID 
+        echo
+        echo "Enter password for $SUDO_ID (need to enter twice)."
+        su $SUDO_ID -c "sudo bash $0 $*"
+        LASTERRORLEVEL=$?
+
+        # give 2nd chance if entered pwd wrong (su doesn't give 2nd chance)
+        if [ $LASTERRORLEVEL == 1 ]; then
+            su $SUDO_ID -c "sudo bash $0 $*"
+            LASTERRORLEVEL=$?
+        fi
+    fi
+
+    echo
+    read -p "FINISHED:  Press <ENTER> to exit..."
+    exit $LASTERRORLEVEL
+fi
+
+# ------------------------------------------------------------------------------
+# Initial Setup
+# ------------------------------------------------------------------------------
+
+CURRENT_USER="${SUDO_USER:-$USER}"
+
+# if 'auto' parameter passed, run non-interactively
+if [ "$1" == "auto" ];
+then
+    AUTO="auto"
+
+    # needed for apt-get
+    YES="--yes"
+    DEBIAN_NONINTERACTIVE="DEBIAN_FRONTEND=noninteractive"
+else
+    AUTO=""
+    YES=""
+    DEBIAN_NONINTERACTIVE=""
+fi
+
+echo
+echo "========================================================================="
+echo "=== Wasta-Linux Initial Setup Script ===================================="
+echo "========================================================================="
+echo
+echo "This script will run multiple dependent scripts to get a Wasta-Linux"
+echo "installation set up, starting with an older version of Wasta-Linux."
+echo
+echo "It will install, remove, and adjust applications and perform other"
+echo "Wasta-Linux initialization items."
+echo
+echo "!!!Make sure Wasta-Offline is running if you want to use it!!!"
+echo
+
+if ! [ "$AUTO" ];
+then
+    echo "Close this window if you do not want to run this script."
+    echo
+    read -p "Press <Enter> to continue..."
+fi
+
+# Setup Directory for later reference
+DIR=/usr/share/wasta-core
+
+# ------------------------------------------------------------------------------
+# Main Processing
+# ------------------------------------------------------------------------------
+
+echo
+echo "*** Refresh initramfs (Updates Plymouth Theme files)"
+echo
+update-initramfs -u
+
+# NATE: skipping app removals to keep snap packages.
+#echo
+#echo "*** Calling app-removals.sh script (before app-installs.sh)"
+#echo
+#bash $DIR/scripts/app-removals.sh $AUTO
+#LASTERRORLEVEL=$?
+#if [ "$LASTERRORLEVEL" -ne "0" ];
+#then
+#    echo
+#    echo " *** ERROR in return from app-removals.sh pre app-installs. Exiting."
+#    echo
+#    exit 1
+#fi
+
+echo
+echo "*** Ensuring HWE stack is installed"
+echo
+# NATE: added --install-recommends per: wiki.ubuntu.com/Kernel/LTSEnablementStack
+$DEBIAN_NONINERACTIVE bash -c "apt-get $YES install \
+    --install-recommends \
+    linux-generic-hwe-18.04 \
+    xserver-xorg-hwe-18.04 \
+    virtualbox-guest-utils-hwe \
+    virtualbox-guest-x11-hwe"
+# note: virtualbox-guest-x11-hwe required but has dependency issue:
+#   https://bugs.launchpad.net/ubuntu/+source/virtualbox-hwe/+bug/1816386
+#   virtualbox-hwe copied to Wasta PPA until available in main repo
+
+echo
+echo "*** Calling app-installs.sh script"
+echo
+bash $DIR/scripts/app-installs.sh $AUTO
+LASTERRORLEVEL=$?
+if [ "$LASTERRORLEVEL" -ne "0" ];
+then
+    echo
+    echo " *** ERROR in return from app-installs.sh post app installs. Exiting."
+    echo
+    exit 1
+fi
+
+# NATE: skipping app removals to keep snap packages.
+#echo
+#echo "*** Calling app-removals.sh script (cleanup after app-installs.sh)"
+#echo
+#bash $DIR/scripts/app-removals.sh $AUTO
+#LASTERRORLEVEL=$?
+#if [ "$LASTERRORLEVEL" -ne "0" ];
+#then
+#    echo
+#    echo " *** ERROR in return from app-removals.sh. Exiting."
+#    echo
+#    exit 1
+#fi
+
+ADJUST_SCRIPT=/usr/share/wasta-multidesktop/scripts/app-adjustments.sh
+if [ -e "$ADJUST_SCRIPT" ];
+then
+    echo
+    echo "*** Calling app-adjustments.sh script"
+    echo
+    bash $ADJUST_SCRIPT $AUTO
+    LASTERRORLEVEL=$?
+    if [ "$LASTERRORLEVEL" -ne "0" ];
+    then
+        echo
+        echo " *** ERROR in return from app-adjustments.sh. Exiting."
+        echo
+        exit 1
+    fi
+fi
+
+if [ -x /usr/bin/wasta-layout-system ];
+then
+    echo
+    echo "*** Setting wasta-layout cinnamon system default to redmond7"
+    echo
+    wasta-layout-system redmond7
+fi
+
+echo
+echo "*** Calling wasta-reset to re-initialize Wasta-Linux settings"
+echo
+# attempt to call as current user.  If root then wasta-reset will just exit.
+su "$CURRENT_USER" -c "wasta-reset $AUTO"
+LASTERRORLEVEL=$?
+if [ "$LASTERRORLEVEL" -ne "0" ];
+then
+    echo
+    echo " *** ERROR in return from wasta-reset. Exiting."
+    echo
+    exit 1
+fi
+
+# ------------------------------------------------------------------------------
+# Finished
+# ------------------------------------------------------------------------------
+printf "\n\n\n\n\n\n"
+echo "========================================================================="
+echo "=== Script Finished ====================================================="
+echo "========================================================================="
+
+exit 0

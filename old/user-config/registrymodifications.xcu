@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oor:items xmlns:oor="http://openoffice.org/2001/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<item oor:path="/org.openoffice.Office.Common/Cache/GraphicManager"><prop oor:name="ObjectReleaseTime" oor:op="fuse"><value>600</value></prop></item>
+<item oor:path="/org.openoffice.Office.Common/Cache/GraphicManager"><prop oor:name="ObjectCacheSize" oor:op="fuse"><value>5242880</value></prop></item>
+<item oor:path="/org.openoffice.Office.Common/Cache/GraphicManager"><prop oor:name="TotalCacheSize" oor:op="fuse"><value>524288000</value></prop></item>
+<item oor:path="/org.openoffice.Office.Common/Save/Document"><prop oor:name="AutoSave" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Common/Save/Document"><prop oor:name="CreateBackup" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Common/Save/Document"><prop oor:name="AutoSavePrompt" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Common/Save/Document"><prop oor:name="WarnAlienFormat" oor:op="fuse"><value>false</value></prop></item>
+<item oor:path="/org.openoffice.Office.Common/Save/Document"><prop oor:name="AutoSaveTimeIntervall" oor:op="fuse"><value>5</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/GrammarChecking"><prop oor:name="IsAutoCheck" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/SpellChecking"><prop oor:name="IsSpellUpperCase" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/SpellChecking"><prop oor:name="IsSpellSpecial" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/SpellChecking"><prop oor:name="IsSpellAuto" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/Hyphenation"><prop oor:name="MinWordLength" oor:op="fuse"><value>5</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/Hyphenation"><prop oor:name="IsHyphSpecial" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/Hyphenation"><prop oor:name="MinLeading" oor:op="fuse"><value>2</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/Hyphenation"><prop oor:name="MinTrailing" oor:op="fuse"><value>2</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/Hyphenation"><prop oor:name="IsHyphAuto" oor:op="fuse"><value>false</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/General"><prop oor:name="IsIgnoreControlCharacters" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/General"><prop oor:name="DefaultLocale_CJK" oor:op="fuse"><value></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/General"><prop oor:name="DefaultLocale_CTL" oor:op="fuse"><value></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/General/DictionaryList"><prop oor:name="IsUseDictionaryList" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/General/DictionaryList"><prop oor:name="ActiveDictionaries" oor:op="fuse"><value><it>technical.dic</it><it>IgnoreAllList</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/General"><prop oor:name="DefaultLocale" oor:op="fuse"><value></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager"><prop oor:name="DataFilesChangedCheckValue" oor:op="fuse"><value>-1</value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="en-AU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="fr-BE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="fr-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="en-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="fr-FR" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="en-GB" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="en-US" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="en-ZA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="fr-CH" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="fr-LU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/SpellCheckerList"><prop oor:name="fr-MC" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="en-AU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="fr-BE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="fr-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="en-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="fr-FR" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="en-GB" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="en-US" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="en-ZA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="fr-CH" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="fr-LU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundSpellCheckers"><prop oor:name="fr-MC" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.MySpellSpellChecker</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="en-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="fr-FR" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="en-GB" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="en-US" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="en-ZA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="fi-FI" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="fr-BE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="fr-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="id-ID" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="fr-CH" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="ga-IE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="fr-LU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/HyphenatorList"><prop oor:name="fr-MC" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="en-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="fr-FR" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="en-GB" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="en-US" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="en-ZA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="fi-FI" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="fr-BE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="fr-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="id-ID" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="fr-CH" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="ga-IE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="fr-LU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundHyphenators"><prop oor:name="fr-MC" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.LibHnjHyphenator</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="en-AU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="fr-BE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="fr-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="en-US" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="fr-CH" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="fr-FR" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="fr-LU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/ThesaurusList"><prop oor:name="fr-MC" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="en-AU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="fr-BE" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="fr-CA" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="en-US" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="fr-CH" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="fr-FR" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="fr-LU" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Office.Linguistic/ServiceManager/LastFoundThesauri"><prop oor:name="fr-MC" oor:op="fuse" oor:type="oor:string-list"><value><it>org.openoffice.lingu.new.Thesaurus</it></value></prop></item>
+<item oor:path="/org.openoffice.Setup/Office/Factories/org.openoffice.Setup:Factory['com.sun.star.text.TextDocument']"><prop oor:name="ooSetupFactoryDefaultFilter" oor:op="fuse"><value>MS Word 2007 XML</value></prop></item>
+<item oor:path="/org.openoffice.Setup/Office/Factories/org.openoffice.Setup:Factory['com.sun.star.text.TextDocument']"><prop oor:name="ooSetupFactoryWindowAttributes" oor:op="fuse"><value>32,26,887,523;5;0,25,1360,624;</value></prop></item>
+<item oor:path="/org.openoffice.Setup/Office/Factories/org.openoffice.Setup:Factory['com.sun.star.presentation.PresentationDocument']"><prop oor:name="ooSetupFactoryDefaultFilter" oor:op="fuse"><value>Impress MS PowerPoint 2007 XML</value></prop></item>
+<item oor:path="/org.openoffice.Setup/L10N"><prop oor:name="ooLocale" oor:op="fuse"><value>fr</value></prop></item>
+<item oor:path="/org.openoffice.Office.Recovery/AutoSave"><prop oor:name="Enabled" oor:op="fuse"><value>true</value></prop></item>
+<item oor:path="/org.openoffice.Office.Recovery/AutoSave"><prop oor:name="TimeIntervall" oor:op="fuse"><value>30</value></prop></item>
+<item oor:path="/org.openoffice.Office.Recovery/AutoSave"><prop oor:name="UserAutoSaveEnabled" oor:op="fuse"><value>false</value></prop></item>
+<item oor:path="/org.openoffice.Office.Writer/Layout/Other"><prop oor:name="MeasureUnit" oor:op="fuse"><value>2</value></prop></item>
+</oor:items>
