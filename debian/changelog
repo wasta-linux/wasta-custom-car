@@ -1,9 +1,10 @@
-wasta-custom-car (0.1.7) UNRELEASED; urgency=medium
+wasta-custom-car (0.2) focal; urgency=medium
 
   * Added touchpad natural-scroll preference
   * Changed some "depends" to "recommends"
+  * Overhauled for focal release
 
- -- Nate Marti <nate_marti@sil.org>  Tue, 13 Dec 2016 08:45:30 -0600
+ -- Nate Marti <nate_marti@sil.og>  Sat, 08 Aug 2020 08:01:24 +0100
 
 wasta-custom-car (0.1.5) xenial; urgency=medium
 
