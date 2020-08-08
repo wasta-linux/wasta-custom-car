@@ -4,7 +4,7 @@ wasta-custom-car (0.2) focal; urgency=medium
   * Changed some "depends" to "recommends"
   * Overhauled for focal release
 
- -- Nate Marti <nate_marti@sil.og>  Sat, 08 Aug 2020 08:01:24 +0100
+ -- Nate Marti <nate_marti@sil.org>  Sat, 08 Aug 2020 08:01:24 +0100
 
 wasta-custom-car (0.1.5) xenial; urgency=medium
 
