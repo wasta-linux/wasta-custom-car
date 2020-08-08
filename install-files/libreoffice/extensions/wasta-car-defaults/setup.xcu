@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--                                                                         -->
+<!-- wasta-car-defaults - setup.xcu                                          -->
+<!--                                                                         -->
+<!--    -Languages | Default Currency: Set to EUR                            -->
+<!--    -Languages | Locale Setting: fr_FR                                   -->
+<!--    -Load/Save | Default Spreadsheet Document Ext.: .xlsx                -->
+<!--    -Load/Save | Default Text Document Extension: .docx                  -->
+<!--                                                                         -->
+<oor:component-data oor:name="Setup" oor:package="org.openoffice"
+                    xmlns:oor="http://openoffice.org/2001/registry"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+
+  <node oor:name="Product">
+    <prop oor:name="LastTimeDonateShown"
+          oor:finalized="true" ><!-- the key to disabling - make it read-only-->
+      <value>0</value>
+    </prop>
+  </node>
+  <node oor:name="Product">
+    <prop oor:name="LastTimeGetInvolvedShown"
+          oor:finalized="true" ><!-- the key to disabling - make it read-only-->
+      <value>0</value>
+    </prop>
+  </node>
+  <node oor:name="L10N">
+    <prop oor:name="ooLocale"
+          oor:type="xs:string"
+          oor:finalized="false" >
+      <value>fr</value>
+    </prop>
+    <prop oor:name="ooSetupCurrency"
+          oor:type="xs:string"
+          oor:finalized="false" >
+      <value>EUR-fr-FR</value>
+    </prop>
+  </node>
+  <node oor:name="L10N">
+    <prop oor:name="ooSetupSystemLocale"
+          oor:type="xs:string"
+          oor:finalized="false" >
+      <value>fr-FR</value>
+    </prop>
+  </node>
+  <node oor:name="Office">
+    <node oor:name="Factories">
+      <node oor:name="com.sun.star.sheet.SpreadsheetDocument">
+        <prop oor:name="ooSetupFactoryDefaultFilter"
+              oor:type="xs:string"
+              oor:finalized="false" >
+          <value>Calc Office Open XML</value>
+        </prop>
+      </node>
+      <node oor:name="com.sun.star.text.TextDocument">
+        <prop oor:name="ooSetupFactoryDefaultFilter"
+              oor:type="xs:string"
+              oor:finalized="false" >
+          <value>Office Open XML Text</value>
+        </prop>
+      </node>
+    </node>
+  </node>
+
+</oor:component-data>

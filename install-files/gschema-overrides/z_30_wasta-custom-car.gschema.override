@@ -17,28 +17,48 @@
 #
 # ==============================================================================
 
-# EXAMPLE: change cinnamon panel to top and make it 41px tall (default is 29)
-#[org.cinnamon]
-#panels-enabled = ['1:0:top']
-#panels-height = ['1:41']
 
-
-# ------------------------------------------------------------------------------
-# Use natural scrolling for touchpad
-# ------------------------------------------------------------------------------
-
-# Change setting for Cinnamon
+### Use natural scrolling for touchpad
 [org.cinnamon.settings-daemon.peripherals.touchpad]
 natural-scroll = true
 
-# Change setting for Unity
+# Setting this for generic Ubuntu desktop as well as wasta-gnome desktop.
 [org.gnome.desktop.peripherals.touchpad]
 natural-scroll = true
 
-# Set background for Unity (apparently didn't work right in Wasta Setup)
+### Set background.
+[org.cinnamon.desktop.background]
+picture-uri = 'file:///usr/share/backgrounds/wasta/Blue_box_number_2_by_orb9220-wasta.jpg'
+
+# Setting this for generic Ubuntu desktop as well as wasta-gnome desktop.
 [org.gnome.desktop.background]
 color-shading-type = 'solid'
 picture-options = 'zoom'
-picture-uri = 'file:///usr/share/backgrounds/Tramonto_a_Scalea_by_Renatvs88.jpg'
+picture-uri = 'file:///usr/share/backgrounds/wasta/Blue_box_number_2_by_orb9220-wasta.jpg'
 primary-color = '#000000'
 secondary-color = '#000000'
+
+### Display scripts when double-clicking on them.
+[org.gnome.nautilus.preferences]
+executable-text-activation = 'display'
+
+[org.nemo.preferences]
+executable-text-activation = 'display'
+
+### Don't close Files window on device eject (Nemo only?).
+[org.nemo.preferences]
+close-device-view-on-device-eject = false
+
+### Show files as list by default.
+[org.gnome.nautilus.preferences]
+default-folder-viewer = 'list-view'
+
+[org.nemo.preferences]
+default-folder-viewer = 'list-view'
+
+### Use 24-hr clock.
+[org.cinnamon.desktop.interface]
+clock-use-24h = true
+
+[org.gnome.desktop.interface]
+clock-format = '24h'

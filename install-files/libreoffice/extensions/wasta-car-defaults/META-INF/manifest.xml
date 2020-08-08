@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--                                                                         -->
+<!-- wasta-car-defaults - manifest.xml                                       -->
+<!--                                                                         -->
+<!DOCTYPE manifest:manifest PUBLIC "-//OpenOffice.org//DTD Manifest 1.0//EN" "Manifest.dtd">
+<manifest:manifest xmlns:manifest="http://openoffice.org/2001/manifest">
+    <manifest:file-entry manifest:media-type="application/vnd.sun.star.configuration-data" 
+                          manifest:full-path="common.xcu"/>
+    <manifest:file-entry manifest:media-type="application/vnd.sun.star.configuration-data" 
+                          manifest:full-path="jobs.xcu"/>
+    <manifest:file-entry manifest:media-type="application/vnd.sun.star.configuration-data" 
+                          manifest:full-path="linguistic.xcu"/>
+    <manifest:file-entry manifest:media-type="application/vnd.sun.star.configuration-data" 
+                          manifest:full-path="setup.xcu"/>
+    <manifest:file-entry manifest:media-type="application/vnd.sun.star.configuration-data" 
+                          manifest:full-path="writer.xcu"/>
+</manifest:manifest>
