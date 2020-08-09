@@ -1,1 +1,2 @@
 - [ ] Add Admin user.
+- [ ] Add per-user syncthing autostart entry (/etc/skel & /home/*/.config/autostart/)
