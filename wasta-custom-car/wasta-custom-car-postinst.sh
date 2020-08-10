@@ -34,6 +34,21 @@ RESOURCE_DIR=/usr/share/wasta-custom-${BRANCH_ID}/resources
 DEBUG=""  #set to yes to enable testing helps
 
 # ------------------------------------------------------------------------------
+# Ensure Admin user
+# ------------------------------------------------------------------------------
+adduser --gecos 'Administrateur,,,' --disabled-login --uid 1999 administrateur
+adduser administrateur adm
+adduser administrateur sudo
+adduser administrateur plugdev
+# Set 1-time password if not already set (status=P if set).
+status=$(passwd --status administrateur | awk '{print $2}')
+if [[ $status != P ]]; then
+  echo -e 'password\npassword' | passwd administrateur
+  # Force password to expire immediately.
+  passwd -e administrateur
+fi
+
+# ------------------------------------------------------------------------------
 # Adjust Software Sources
 # ------------------------------------------------------------------------------
 
@@ -98,11 +113,33 @@ fi
 #   alternative is apt purge appstream - then you lose snaps/ubuntu-software
 dpkg-divert --local --rename --divert '/etc/apt/apt.conf.d/#50appstream' /etc/apt/apt.conf.d/50appstream
 
-# Disable skypeforlinux.deb repo & purge package.
+# Disable skypeforlinux.deb repo.
 if ! [[ $(head -1 ${APT_SOURCES_D}/skype-stable.list) =~ ^[[:space:]]*#.* ]]; then
   sed -i 's/^/#/' ${APT_SOURCES_D}/skype-stable.list
 fi
-apt-get purge --assume-yes skypeforlinux
+
+# Remove skypeforlinux deb.
+if [[ $(dpkg -l | grep skypeforlinux) ]]; then
+  apt-get purge --assume-yes skypeforlinux
+fi
+
+# Set syncthing to autostart for future users.
+src=/usr/share/applications/syncthing-start.desktop
+if [[ ! -e /etc/skel/.config/autostart/syncthing-start.desktop ]]; then
+  mkdir -p /etc/skel/.config/autostart
+  cp "$src" /etc/skel/.config/autostart
+fi
+
+# Set to autostart for existing users.
+users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
+while IFS= read -r user; do
+  if [[ $(grep "$user:" /etc/passwd) ]]; then
+    mkdir -p -m 755 "/home/$user/.config/autostart"
+    cp "$src" "/home/$user/.config/autostart/syncthing-start.desktop"
+    chown -R $user:$user "/home/$user/.config/autostart"
+    chmod 644 "/home/$user/.config/autostart/syncthing-start.desktop"
+  fi
+done <<< "$users"
 
 # ------------------------------------------------------------------------------
 # Configure snapd and snap packages
@@ -115,7 +152,9 @@ if [ $(which snap) ]; then
 fi
 
 # Install default snaps.
-snap install skype --classic
+if [[ ! -e /snap/bin/skype ]]; then
+  snap install skype --classic
+fi
 
 # ------------------------------------------------------------------------------
 # LibreOffice PPA management
@@ -285,7 +324,6 @@ paperconfig -p a4
 # ------------------------------------------------------------------------------
 # Change system-wide locale settings
 # ------------------------------------------------------------------------------
-
 # Set timezone
 timedatectl set-timezone "Africa/Bangui"
 
@@ -317,6 +355,8 @@ fi
 # ------------------------------------------------------------------------------
 # Finished
 # ------------------------------------------------------------------------------
+# Restart GNOME Shell.
+killall -SIGQUIT /usr/bin/gnome-shell
 
 echo
 echo "*** Finished with wasta-custom-${BRANCH_ID}-postinst.sh"
