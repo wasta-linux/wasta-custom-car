@@ -336,6 +336,74 @@ update-locale LANGUAGE="fr_FR"
 update-locale LC_ALL="fr_FR.UTF-8"
 
 # ------------------------------------------------------------------------------
+# Fix non-translated desktop app names & comments.
+# ------------------------------------------------------------------------------
+# https://git.codecoop.org/kjo/bookletimposer/-/blob/master/data/bookletimposer.desktop
+if [[ -e /usr/share/applications/bookletimposer.desktop ]]; then
+  desktop-file-edit --set-name="bookletimposer"
+  desktop-file-edit --set-key="Name[en]" --set-value="Booklet Imposer"
+  desktop-file-edit --set-key="Name[fr]" --set-value="Imposeur de brochures"
+fi
+       
+# https://gitlab.gnome.org/GNOME/gimp/-/blob/master/desktop/gimp.desktop.in.in
+if [[ -e /usr/share/applications/gimp.desktop ]]; then
+  desktop-file-edit --set-name="GNU Image Manipulation Program"
+  desktop-file-edit --set-key="Name[en]" --set-value="GIMP Image Editor"
+  desktop-file-edit --set-key="Name[fr]" --set-value="Éditeur d'images GIMP"
+  desktop-file-edit --set-comment="Create images and edit photographs"
+  desktop-file-edit --set-key="Comment[en]" --set-value="Advanced image and photo editor"
+  # Comment[fr]=[keep default: Créer des images et modifier des photographies]
+fi
+
+# /usr/share/applications/org.gnome.Packages.desktop (Not installed in bionic/focal)
+
+# https://github.com/ibus/ibus/blob/66141bbc5e68c5f221737282fc4f3d5e48ba6c69/setup/ibus-setup.desktop
+if [[ -e /usr/share/applications/ibus-setup.desktop ]]; then
+  desktop-file-edit --set-name="IBus Preferences"
+  desktop-file-edit --set-key="Name[en]" --set-value="IBus Keyboards"
+  desktop-file-edit --set-key="Name[fr]" --set-value="Méthode d'entrée IBus"
+  desktop-file-edit --set-key="Comment[fr]" --set-value="Configurer la méthode d'entrée par IBus"
+fi
+
+# https://github.com/mvo5/synaptic/blob/master/data/synaptic.desktop.in
+if [[ -e /usr/share/applications/synaptic.desktop ]]; then
+  desktop-file-edit --set-name="Synaptic Package Manager"
+  desktop-file-edit --set-key="Name[en]" --set-value="Synaptic Software Package Manager"
+  desktop-file-edit --set-key="Name[fr]" --set-value="Gestionnaire de paquets de logiciel Synaptic"
+fi
+
+# /usr/share/applications/software-properties-gnome.desktop (Not installed in bionic/focal)
+
+# $ apt-get source software-properties-gtk > data/software-properties-gtk.desktop.in
+if [[ -e /usr/share/applications/software-properties-gtk.desktop ]]; then
+  desktop-file-edit --set-name="Software & Updates"
+  desktop-file-edit --set-key="Name[en]" --set-value="Software Settings"
+  desktop-file-edit --set-key="Name[fr]" --set-value="Configuration de Logiciel"
+fi
+
+# https://github.com/goldendict/goldendict/blob/master/redist/goldendict.desktop
+if [[ -e /usr/share/applications/goldendict.desktop ]]; then
+  desktop-file-edit --set-comment="GoldenDict"
+  desktop-file-edit --set-key="Comment[en]" --set-value="Dictionary / Thesaurus tool"
+  desktop-file-edit --set-key="Comment[fr]" --set-value="Outil de dictionnaire"
+fi
+
+# /usr/share/applications/gnome-search-tool.desktop (Not installed in bionic/focal)
+
+# https://github.com/Depau/modem-manager-gui/blob/master/appdata/modem-manager-gui.desktop.in
+if [[ -e /usr/share/applications/modem-manager-gui.desktop ]]; then
+  desktop-file-edit --set-comment="Control EDGE/3G/4G broadband modem specific functions"
+  desktop-file-edit --set-key="Comment[en]" --set-value="3G USB Modem Manager"
+  desktop-file-edit --set-key="Comment[fr]" --set-value="Gestionnaire de modem USB 3G"
+fi
+
+# https://github.com/codebrainz/xfce4-settings/blob/matt/display-settings-frame/xfce4-settings-manager/xfce-settings-manager.desktop.in
+if [[ -e /usr/share/applications/xfce-settings-manager.desktop ]]; then
+  desktop-file-edit --set-comment="Graphical Settings Manager for Xfce 4"
+  desktop-file-edit --set-key="Comment[en]" --set-value="Graphical System Control Panel for Xfce 4"
+fi
+
+# ------------------------------------------------------------------------------
 # Ensure SSH keys have been regenerated after remastersys
 #     16.04: ssh_host_dsa_key
 #     18.04: ssh_host_ecdsa_key
