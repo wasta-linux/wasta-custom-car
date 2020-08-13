@@ -1,3 +1,9 @@
+wasta-custom-car (0.2.2) focal; urgency=medium
+
+  * Fixed non-translated app names and comments.
+
+ -- Nate Marti <nate_marti@sil.org>  Thu, 13 Aug 2020 14:05:02 +0100
+
 wasta-custom-car (0.2.1) focal; urgency=medium
 
   * Added Admin user; make Syncthing autostart for all users
