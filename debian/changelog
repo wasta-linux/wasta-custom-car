@@ -1,3 +1,9 @@
+wasta-custom-car (0.2.3) focal; urgency=medium
+
+  * Updated version number.
+
+ -- Nate Marti <nate_marti@sil.org>  Tue, 18 Aug 2020 08:54:41 +0100
+
 wasta-custom-car (0.2.2) focal; urgency=medium
 
   * Fixed non-translated app names and comments.
