@@ -335,6 +335,8 @@ update-locale LANG="fr_FR.UTF-8"
 update-locale LANGUAGE="fr_FR"
 update-locale LC_ALL="fr_FR.UTF-8"
 
+### This has been upstreamed to wasta-multidesktop. Keeping for now, just in case.
+: << SKIPTHIS
 # ------------------------------------------------------------------------------
 # Fix non-translated desktop app names & comments.
 # ------------------------------------------------------------------------------
@@ -430,6 +432,7 @@ if [[ -e /usr/share/applications/xfce-settings-manager.desktop ]]; then
   desktop-file-edit --set-key="Comment[en]" --set-value="Graphical System Control Panel for Xfce 4" \
     /usr/share/applications/xfce-settings-manager.desktop
 fi
+SKIPTHIS
 
 # ------------------------------------------------------------------------------
 # Ensure SSH keys have been regenerated after remastersys

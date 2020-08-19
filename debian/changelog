@@ -1,3 +1,9 @@
+wasta-custom-car (0.2.4) focal; urgency=medium
+
+  * launcher adjustments now upstreamed to wasta-multidesktop
+
+ -- Nate Marti <nate_marti@sil.org>  Wed, 19 Aug 2020 07:58:37 +0100
+
 wasta-custom-car (0.2.3) focal; urgency=medium
 
   * Updated version number.
