@@ -7,7 +7,28 @@ Standards-Version: 3.9.7
 
 Package: wasta-custom-car
 Architecture: all
-Depends: wasta-backgrounds, ${misc:Depends}
-Recommends: firefox-locale-fr, gimp-help-fr, gnome-user-docs-fr, gnome-getting-started-docs-fr, hunspell-fr, hyphen-fr, language-pack-en, language-pack-en-base, language-pack-fr, language-pack-fr-base, language-pack-gnome-en, language-pack-gnome-en-base, language-pack-gnome-fr, language-pack-gnome-fr-base, libreoffice-help-fr, libreoffice-l10n-fr, mythes-fr, snapd, syncthing, thunderbird-locale-fr, wfrench
+Depends: ${misc:Depends}, wasta-backgrounds
+Recommends: wasta-gnome-focal | wasta-gnome-bionic,
+ firefox-locale-fr,
+ gimp-help-fr,
+ gnome-user-docs-fr,
+ gnome-getting-started-docs-fr,
+ hunspell-fr,
+ hyphen-fr,
+ language-pack-en,
+ language-pack-en-base,
+ language-pack-fr,
+ language-pack-fr-base,
+ language-pack-gnome-en,
+ language-pack-gnome-en-base,
+ language-pack-gnome-fr,
+ language-pack-gnome-fr-base,
+ libreoffice-help-fr,
+ libreoffice-l10n-fr,
+ mythes-fr,
+ snapd,
+ syncthing,
+ thunderbird-locale-fr,
+ wfrench
 Description: Wasta-Linux CAR Customization
  Sets up Wasta-Linux machine for use in CAR
