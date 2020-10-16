@@ -1,6 +1,5 @@
 install-files/apt/*                     etc/apt/apt.conf.d
 install-files/dictionaries/*            usr/share/wasta-resources/.goldendict-dictionaries
-install-files/extensions                usr/share/wasta-resources
 install-files/gschema-overrides/*       usr/share/glib-2.0/schemas
 install-files/libreoffice/extensions    usr/lib/libreoffice/share
 install-files/thunderbird/*             usr/lib/thunderbird/defaults/pref
