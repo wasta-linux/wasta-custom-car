@@ -263,36 +263,26 @@ else
 fi
 
 # ------------------------------------------------------------------------------
+# enable zswap (from wasta-core if found)
+# ------------------------------------------------------------------------------
+# Ubuntu / Wasta-Linux 20.04 swaps really easily, which kills performance.
+# zswap uses *COMPRESSED* RAM to buffer swap before writing to disk.
+# This is good for SSDs (less writing), and good for HDDs (no stalling).
+# zswap should NOT be used with zram (uncompress/recompress shuffling).
+
+if [ -e "/usr/bin/wasta-enable-zswap" ];
+then
+    wasta-enable-zswap auto
+fi
+
+# ------------------------------------------------------------------------------
 # Schema overrides - set customized defaults for gnome software
 # !! Not removed if wasta-custom-${BRANCH_ID} is uninstalled !!
 # ------------------------------------------------------------------------------
 SCHEMA_DIR=/usr/share/glib-2.0/schemas
-RUN_COMPILE=YES
-if [ -x "${SCHEMA_DIR}/" ]; then
-  for OVERRIDE_FILE in "${RESOURCE_DIR}/"*.gschema.override ; do
-    if [ -f "${OVERRIDE_FILE}" ]; then
-      OVERRIDE=$(basename --suffix=.gschema.override ${OVERRIDE_FILE})
-      if [ -e "${SCHEMA_DIR}/${OVERRIDE_FILE}" ]; then
-        echo "  Replacing ${OVERRIDE} override"
-      else
-        echo "  Adding ${OVERRIDE} override"
-      fi
-      cp "${RESOURCE_DIR}/${OVERRIDE_FILE}"  "${SCHEMA_DIR}/"
-      chmod 644 "${SCHEMA_DIR}/${OVERRIDE_FILE}"
-      RUN_COMPILE=YES
-    else
-      [ "$DEBUG" ] && echo "DEBUG: no .gschema.override files to install"
-    fi
-  done
-else
-  echo "WARNING: could not find glib schema dir..."
-fi
-
-if [ "${RUN_COMPILE^^}" == "YES" ]; then
-  echo && echo "Compile changed gschema default preferences"
-  [ "$DEBUG" ] && glib-compile-schemas --strict ${SCHEMA_DIR}/
-  glib-compile-schemas ${SCHEMA_DIR}/
-fi
+echo && echo "Compile changed gschema default preferences"
+[ "$DEBUG" ] && glib-compile-schemas --strict ${SCHEMA_DIR}/
+glib-compile-schemas ${SCHEMA_DIR}/
 
 # ------------------------------------------------------------------------------
 # Install fonts
