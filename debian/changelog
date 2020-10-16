@@ -1,3 +1,9 @@
+wasta-custom-car (0.2.6) focal; urgency=medium
+
+  * Added bandwidth management stuff.
+
+ -- Nate Marti <nate_marti@sil.org>  Fri, 16 Oct 2020 08:17:37 +0100
+
 wasta-custom-car (0.2.5) focal; urgency=medium
 
   * Added wasta-gnome-* to recommends.

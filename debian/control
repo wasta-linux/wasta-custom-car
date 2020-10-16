@@ -27,8 +27,11 @@ Recommends: wasta-gnome-focal | wasta-gnome-bionic,
  libreoffice-l10n-fr,
  mythes-fr,
  snapd,
+ snap-settings,
  syncthing,
  thunderbird-locale-fr,
+ tt-bandwidth-manager-gui,
+ wasta-snap-manager,
  wfrench
 Description: Wasta-Linux CAR Customization
  Sets up Wasta-Linux machine for use in CAR
