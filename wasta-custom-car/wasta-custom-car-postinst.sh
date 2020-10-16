@@ -135,7 +135,7 @@ users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 while IFS= read -r user; do
   if [[ $(grep "$user:" /etc/passwd) ]]; then
     mkdir -p -m 755 "/home/$user/.config/autostart"
-    cp "$src" "/home/$user/.config/autostart/syncthing-start.desktop"
+    cp "$sta" "/home/$user/.config/autostart/syncthing-start.desktop"
     chown -R $user:$user "/home/$user/.config/autostart"
     chmod 644 "/home/$user/.config/autostart/syncthing-start.desktop"
   fi
@@ -146,7 +146,7 @@ extensions=$(find "${RESOURCE_DIR}"/extensions/* -maxdepth 0 -type d)
 # First do /etc/skel for future users.
 for ext in "${extensions}"; do
   mkdir -p /etc/skel/.local/gnome-shell/extensions
-  cp "${ext}" /etc/skel/.local/gnome-shell/extensions
+  cp -r "${ext}" /etc/skel/.local/gnome-shell/extensions
 done
 # Then do existing users.
 while IFS= read -r user; do
@@ -154,7 +154,7 @@ while IFS= read -r user; do
     dest="/home/$user/.local/share/gnome-shell/extensions"
     mkdir -p -m 755 "${dest}"
     for ext in "${extensions}"; do
-      cp "${ext}" "${dest}"
+      cp -r "${ext}" "${dest}"
     done
     chown -R $user:$user "/home/$user/.local/share/gnome-shell/extensions"
     chmod -R 755 "/home/$user/.local/share/gnome-shell/extensions"
