@@ -123,14 +123,14 @@ if [[ $(dpkg -l | grep skypeforlinux) ]]; then
   apt-get purge --assume-yes skypeforlinux
 fi
 
-# Set syncthing to autostart for future users.
-src=/usr/share/applications/syncthing-start.desktop
+# Set syncthing to autostart.
+sta=/usr/share/applications/syncthing-start.desktop
+# Do it for future users.
 if [[ ! -e /etc/skel/.config/autostart/syncthing-start.desktop ]]; then
   mkdir -p /etc/skel/.config/autostart
-  cp "$src" /etc/skel/.config/autostart
+  cp "$sta" /etc/skel/.config/autostart
 fi
-
-# Set to autostart for existing users.
+# Do it for existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 while IFS= read -r user; do
   if [[ $(grep "$user:" /etc/passwd) ]]; then
@@ -138,6 +138,26 @@ while IFS= read -r user; do
     cp "$src" "/home/$user/.config/autostart/syncthing-start.desktop"
     chown -R $user:$user "/home/$user/.config/autostart"
     chmod 644 "/home/$user/.config/autostart/syncthing-start.desktop"
+  fi
+done <<< "$users"
+
+# Install GNOME extensions at user level (system level requires special GNOME session).
+extensions=$(find "${RESOURCE_DIR}"/extensions/* -maxdepth 0 -type d)
+# First do /etc/skel for future users.
+for ext in "${extensions}"; do
+  mkdir -p /etc/skel/.local/gnome-shell/extensions
+  cp "${ext}" /etc/skel/.local/gnome-shell/extensions
+done
+# Then do existing users.
+while IFS= read -r user; do
+  if [[ $(grep "$user:" /etc/passwd) ]]; then
+    dest="/home/$user/.local/share/gnome-shell/extensions"
+    mkdir -p -m 755 "${dest}"
+    for ext in "${extensions}"; do
+      cp "${ext}" "${dest}"
+    done
+    chown -R $user:$user "/home/$user/.local/share/gnome-shell/extensions"
+    chmod -R 755 "/home/$user/.local/share/gnome-shell/extensions"
   fi
 done <<< "$users"
 
