@@ -16,13 +16,12 @@
 # Check to ensure running as root
 # ------------------------------------------------------------------------------
 #   No fancy "double click" here because normal user should never need to run
-if [ $(id -u) -ne 0 ]
-then
-  echo
-  echo "You must run this script with sudo." >&2
-  echo "Exiting...."
-  sleep 5s
-  exit 1
+if [ $(id -u) -ne 0 ]; then
+    echo
+    echo "You must run this script with sudo." >&2
+    echo "Exiting...."
+    sleep 5s
+    exit 1
 fi
 
 # ------------------------------------------------------------------------------
@@ -43,43 +42,49 @@ adduser administrateur plugdev
 # Set 1-time password if not already set (status=P if set).
 status=$(passwd --status administrateur | awk '{print $2}')
 if [[ $status != P ]]; then
-  echo -e 'password\npassword' | passwd administrateur
-  # Force password to expire immediately.
-  passwd -e administrateur
+    echo -e 'password\npassword' | passwd administrateur
+    # Force password to expire immediately.
+    passwd -e administrateur
 fi
 
 # ------------------------------------------------------------------------------
 # Adjust Software Sources
 # ------------------------------------------------------------------------------
 
+# Change to server for France for main updates.
+# TODO: This seems risky. The server names are not consistent, e.g.:
+#   No server for France:
+#   deb http://archive.canonical.com/ubuntu bionic partner
+#sed -i 's@http://archive@http://fr.archive@g' /etc/apt/sources.list
+
 # get series, load them up.
 SERIES=$(lsb_release -sc)
 case "$SERIES" in
 
-  trusty|qiana|rebecca|rafaela|rosa)
-    #LTS 14.04-based Mint 17.x
-    REPO_SERIES="trusty"
-  ;;
+    trusty|qiana|rebecca|rafaela|rosa)
+        #LTS 14.04-based Mint 17.x
+        REPO_SERIES="trusty"
+    ;;
 
-  xenial|sarah|serena|sonya|sylvia)
-    #LTS 16.04-based Mint 18.x
-    REPO_SERIES="xenial"
-  ;;
+    xenial|sarah|serena|sonya|sylvia)
+        #LTS 16.04-based Mint 18.x
+        REPO_SERIES="xenial"
+    ;;
 
-  bionic|tara|tessa|tina|tricia)
-    #LTS 18.04-based Mint 19.x
-    REPO_SERIES="bionic"
-  ;;
+    bionic|tara|tessa|tina|tricia)
+        #LTS 18.04-based Mint 19.x
+        REPO_SERIES="bionic"
+    ;;
 
-  focal|ulyana)
-    #LTS 20.04-based Mint 20.x
-    REPO_SERIES="focal"
-  ;;
+    focal|ulyana)
+        #LTS 20.04-based Mint 20.x
+        REPO_SERIES="focal"
+    ;;
 
-  *)
-    # Don't know the series, just go with what is reported
-    REPO_SERIES=$SERIES
-  ;;
+    *)
+        # Don't know the series, just go with what is reported
+        REPO_SERIES=$SERIES
+    ;;
 esac
 
 echo
@@ -87,17 +92,15 @@ echo "*** Beginning wasta-custom-${BRANCH_ID}-postinst.sh for ${REPO_SERIES}"
 echo
 
 APT_SOURCES_D=/etc/apt/sources.list.d
-if [ -x /usr/bin/wasta-offline ] &&  [[ $(pgrep -c wasta-offline) > 0 ]];
-then
-  if [ -e /etc/apt/sources.list.d.wasta ];
-  then
-    echo "*** wasta-offline 'offline only' mode detected"
-    echo
-    APT_SOURCES_D=/etc/apt/sources.list.d.wasta
-  else
-    echo "*** wasta-offline 'offline and internet' mode detected"
-    echo
-  fi
+if [ -x /usr/bin/wasta-offline ] &&  [[ $(pgrep -c wasta-offline) > 0 ]]; then
+    if [ -e /etc/apt/sources.list.d.wasta ]; then
+        echo "*** wasta-offline 'offline only' mode detected"
+        echo
+        APT_SOURCES_D=/etc/apt/sources.list.d.wasta
+    else
+        echo "*** wasta-offline 'offline and internet' mode detected"
+        echo
+    fi
 fi
 
 # ------------------------------------------------------------------------------
@@ -106,59 +109,70 @@ fi
 # Notify me of a new Ubuntu version: never, normal, lts
 #   (note: apparently /etc/update-manager/release-upgrades.d doesn't work)
 if [ -e /etc/update-manager/release-upgrades ]; then
-  sed -i -e 's|^Prompt=.*|Prompt=never|' /etc/update-manager/release-upgrades
+    sed -i -e 's|^Prompt=.*|Prompt=never|' /etc/update-manager/release-upgrades
 fi
 
 # disable downloading of DEP-11 files.
 #   alternative is apt purge appstream - then you lose snaps/ubuntu-software
 dpkg-divert --local --rename --divert '/etc/apt/apt.conf.d/#50appstream' /etc/apt/apt.conf.d/50appstream
 
-# Disable skypeforlinux.deb repo.
-if ! [[ $(head -1 ${APT_SOURCES_D}/skype-stable.list) =~ ^[[:space:]]*#.* ]]; then
-  sed -i 's/^/#/' ${APT_SOURCES_D}/skype-stable.list
-fi
+# Disable keyman deb repo.
+keyman_list="${APT_SOURCES_D}/keymanapp-ubuntu-keyman-${REPO_SERIES}.list"
+truncate --size=0 "$keyman_list"
+echo "# deb http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main #wasta" | \
+    tee -a "$keyman_list"
+echo "# deb-src http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main #wasta" | \
+    tee -a "$keyman_list"
+
+# Disable skypeforlinux deb repo.
+skype_list="${APT_SOURCES_D}/skype-stable.list"
+truncate --size=0 "$skype_list"
+echo "# deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+    tee -a "$skype_list"
+echo "# deb-src [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+    tee -a "$skype_list"
 
 # Remove skypeforlinux deb.
 if [[ $(dpkg -l | grep skypeforlinux) ]]; then
-  apt-get purge --assume-yes skypeforlinux
+    apt-get purge --assume-yes skypeforlinux
 fi
 
 # Set syncthing to autostart.
 sta=/usr/share/applications/syncthing-start.desktop
 # Do it for future users.
 if [[ ! -e /etc/skel/.config/autostart/syncthing-start.desktop ]]; then
-  mkdir -p /etc/skel/.config/autostart
-  cp "$sta" /etc/skel/.config/autostart
+    mkdir -p /etc/skel/.config/autostart
+    cp "$sta" /etc/skel/.config/autostart
 fi
 # Do it for existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 while IFS= read -r user; do
-  if [[ $(grep "$user:" /etc/passwd) ]]; then
-    mkdir -p -m 755 "/home/$user/.config/autostart"
-    cp "$sta" "/home/$user/.config/autostart/syncthing-start.desktop"
-    chown -R $user:$user "/home/$user/.config/autostart"
-    chmod 644 "/home/$user/.config/autostart/syncthing-start.desktop"
-  fi
+    if [[ $(grep "$user:" /etc/passwd) ]]; then
+        mkdir -p -m 755 "/home/$user/.config/autostart"
+        cp "$sta" "/home/$user/.config/autostart/syncthing-start.desktop"
+        chown -R $user:$user "/home/$user/.config/autostart"
+        chmod 644 "/home/$user/.config/autostart/syncthing-start.desktop"
+    fi
 done <<< "$users"
 
 # Install GNOME extensions at user level (system level requires special GNOME session).
 extensions=$(find "${RESOURCE_DIR}"/extensions/* -maxdepth 0 -type d)
 # First do /etc/skel for future users.
 for ext in "${extensions}"; do
-  mkdir -p /etc/skel/.local/gnome-shell/extensions
-  cp -r "${ext}" /etc/skel/.local/gnome-shell/extensions
+    mkdir -p /etc/skel/.local/gnome-shell/extensions
+    cp -r "${ext}" /etc/skel/.local/gnome-shell/extensions
 done
 # Then do existing users.
 while IFS= read -r user; do
-  if [[ $(grep "$user:" /etc/passwd) ]]; then
-    dest="/home/$user/.local/share/gnome-shell/extensions"
-    mkdir -p -m 755 "${dest}"
-    for ext in "${extensions}"; do
-      cp -r "${ext}" "${dest}"
-    done
-    chown -R $user:$user "/home/$user/.local/share/gnome-shell/extensions"
-    chmod -R 755 "/home/$user/.local/share/gnome-shell/extensions"
-  fi
+    if [[ $(grep "$user:" /etc/passwd) ]]; then
+        dest="/home/$user/.local/share/gnome-shell/extensions"
+        mkdir -p -m 755 "${dest}"
+        for ext in "${extensions}"; do
+            cp -r "${ext}" "${dest}"
+        done
+        chown -R $user:$user "/home/$user/.local/share/gnome-shell/extensions"
+        chmod -R 755 "/home/$user/.local/share/gnome-shell/extensions"
+    fi
 done <<< "$users"
 
 # ------------------------------------------------------------------------------
@@ -166,14 +180,14 @@ done <<< "$users"
 # ------------------------------------------------------------------------------
 # Set wasta-snap-manager's suggested update defaults.
 if [ $(which snap) ]; then
-  snap set system refresh.metered=hold
-  snap set system refresh.timer='sun5,02:00'
-  snap set system refresh.retain=2
+    snap set system refresh.metered=hold
+    snap set system refresh.timer='sun5,02:00'
+    snap set system refresh.retain=2
 fi
 
 # Install default snaps.
 if [[ ! -e /snap/bin/skype ]]; then
-  snap install skype --classic
+    snap install skype --classic
 fi
 
 # ------------------------------------------------------------------------------
@@ -183,15 +197,15 @@ LO_54=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-4-*)
 LO_6X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-*)
 LO_7X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-7-*)
 if ! [ -e "${LO_54[0]}" ] \
-&& ! [ -e "${LO_6X[0]}" ] \
-&& ! [ -e "${LO_7X[0]}" ] \
-&& ! [ "${REPO_SERIES}" == "focal" ] \
-&& ! [ "${REPO_SERIES}" == "bionic" ]; then
-  echo "LibreOffice 5.4 PPA not found.  Adding it..."
+    && ! [ -e "${LO_6X[0]}" ] \
+    && ! [ -e "${LO_7X[0]}" ] \
+    && ! [ "${REPO_SERIES}" == "focal" ] \
+    && ! [ "${REPO_SERIES}" == "bionic" ]; then
+    echo "LibreOffice 5.4 PPA not found.  Adding it..."
 
-  #key already added by wasta, so no need to use the internet with add-apt-repository
-  #add-apt-repository --yes ppa:libreoffice/libreoffice-5-4
-  cat << EOF >  $APT_SOURCES_D/libreoffice-ubuntu-libreoffice-5-4-$REPO_SERIES.list
+    #key already added by wasta, so no need to use the internet with add-apt-repository
+    #add-apt-repository --yes ppa:libreoffice/libreoffice-5-4
+    cat << EOF >  $APT_SOURCES_D/libreoffice-ubuntu-libreoffice-5-4-$REPO_SERIES.list
 deb http://ppa.launchpad.net/libreoffice/libreoffice-5-4/ubuntu $REPO_SERIES main
 # deb-src http://ppa.launchpad.net/libreoffice/libreoffice-5-4/ubuntu $REPO_SERIES main
 EOF
@@ -203,57 +217,57 @@ LO_62=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-2-*)
 LO_63=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-3-*)
 LO_64=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-4-*)
 if [ -e "${LO_7X[0]}" ]; then
-  if [ -e "${LO_64[0]}" ]; then
-    echo "   LO 6.4 PPA found - removing it."
-    rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-4-"*
-  fi
+    if [ -e "${LO_64[0]}" ]; then
+        echo "   LO 6.4 PPA found - removing it."
+        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-4-"*
+    fi
 fi
 
 if [ -e "${LO_7X[0]}" ] \
-|| [ -e "${LO_64[0]}" ]; then
-  if [ -e "${LO_63[0]}" ]; then
-    echo "   LO 6.3 PPA found - removing it."
-    rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-3-"*
-  fi
+    || [ -e "${LO_64[0]}" ]; then
+    if [ -e "${LO_63[0]}" ]; then
+        echo "   LO 6.3 PPA found - removing it."
+        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-3-"*
+    fi
 fi
 
 if [ -e "${LO_7X[0]}" ] \
-|| [ -e "${LO_64[0]}" ] \
-|| [ -e "${LO_63[0]}" ]; then
- if [ -e "${LO_62[0]}" ]; then
-    echo "   LO 6.2 PPA found - removing it."
-    rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-2-"*
-  fi
+    || [ -e "${LO_64[0]}" ] \
+    || [ -e "${LO_63[0]}" ]; then
+    if [ -e "${LO_62[0]}" ]; then
+        echo "   LO 6.2 PPA found - removing it."
+        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-2-"*
+    fi
 fi
 
 if [ -e "${LO_7X[0]}" ] \
-|| [ -e "${LO_64[0]}" ] \
-|| [ -e "${LO_63[0]}" ] \
-|| [ -e "${LO_62[0]}" ]; then
-  if [ -e "${LO_61[0]}" ]; then
-    echo "   LO 6.1 PPA found - removing it."
-    rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-1-"*
-  fi
+    || [ -e "${LO_64[0]}" ] \
+    || [ -e "${LO_63[0]}" ] \
+    || [ -e "${LO_62[0]}" ]; then
+    if [ -e "${LO_61[0]}" ]; then
+        echo "   LO 6.1 PPA found - removing it."
+        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-1-"*
+    fi
 fi
 
 if [ -e "${LO_7X[0]}" ] \
-|| [ -e "${LO_64[0]}" ] \
-|| [ -e "${LO_63[0]}" ] \
-|| [ -e "${LO_62[0]}" ] \
-|| [ -e "${LO_61[0]}" ]; then
-  if [ -e "${LO_60[0]}" ]; then
-    echo "   LO 6.0 PPA found - removing it."
-    rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-0-"*
-  fi
+    || [ -e "${LO_64[0]}" ] \
+    || [ -e "${LO_63[0]}" ] \
+    || [ -e "${LO_62[0]}" ] \
+    || [ -e "${LO_61[0]}" ]; then
+    if [ -e "${LO_60[0]}" ]; then
+        echo "   LO 6.0 PPA found - removing it."
+        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-0-"*
+    fi
 fi
 
 LO_5X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-*)
 LO_6X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-*)
 if [ -e "${LO_6X[0]}" ]; then
-  if [ -e "${LO_5X[0]}" ]; then
-    echo "   LO 5.x PPA found - removing it."
-    rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-"*
-  fi
+    if [ -e "${LO_5X[0]}" ]; then
+        echo "   LO 5.x PPA found - removing it."
+        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-"*
+    fi
 fi
 
 # ------------------------------------------------------------------------------
@@ -263,23 +277,23 @@ fi
 # ------------------------------------------------------------------------------
 LO_EXTENSION_DIR=/usr/lib/libreoffice/share/extensions
 if [ -x "${LO_EXTENSION_DIR}/" ]; then
-  for EXT_FILE in "${RESOURCE_DIR}/"*.oxt ; do
-    if [ -f "${EXT_FILE}" ]; then
-      LO_EXTENSION=$(basename --suffix=.oxt ${EXT_FILE})
-      if [ -e "${LO_EXTENSION_DIR}/${LO_EXTENSION}" ]; then
-        echo "  Replacing ${LO_EXTENSION} extension"
-        rm -rf "${LO_EXTENSION_DIR}/${LO_EXTENSION}"
-      else
-        echo "  Adding ${LO_EXTENSION} extension"
-      fi
-      unzip -q -d "${LO_EXTENSION_DIR}/${LO_EXTENSION}" \
-                  "${RESOURCE_DIR}/${LO_EXTENSION}.oxt"
-    else
-      [ "$DEBUG" ] && echo "DEBUG: no .oxt files to install"
-    fi
-  done
+    for EXT_FILE in "${RESOURCE_DIR}/"*.oxt ; do
+        if [ -f "${EXT_FILE}" ]; then
+            LO_EXTENSION=$(basename --suffix=.oxt ${EXT_FILE})
+            if [ -e "${LO_EXTENSION_DIR}/${LO_EXTENSION}" ]; then
+                echo "  Replacing ${LO_EXTENSION} extension"
+                rm -rf "${LO_EXTENSION_DIR}/${LO_EXTENSION}"
+            else
+                echo "  Adding ${LO_EXTENSION} extension"
+            fi
+            unzip -q -d "${LO_EXTENSION_DIR}/${LO_EXTENSION}" \
+                "${RESOURCE_DIR}/${LO_EXTENSION}.oxt"
+        else
+            [ "$DEBUG" ] && echo "DEBUG: no .oxt files to install"
+        fi
+    done
 else
-  echo "WARNING: could not find LibreOffice install..."
+    echo "WARNING: could not find LibreOffice install..."
 fi
 
 # ------------------------------------------------------------------------------
@@ -290,8 +304,7 @@ fi
 # This is good for SSDs (less writing), and good for HDDs (no stalling).
 # zswap should NOT be used with zram (uncompress/recompress shuffling).
 
-if [ -e "/usr/bin/wasta-enable-zswap" ];
-then
+if [ -e "/usr/bin/wasta-enable-zswap" ]; then
     wasta-enable-zswap auto
 fi
 
@@ -311,17 +324,17 @@ glib-compile-schemas ${SCHEMA_DIR}/
 REBUILD_CACHE=NO
 TTF=(${RESOURCE_DIR}/*.ttf)
 if [ -e "${TTF[0]}" ]; then
-  echo && echo "installing extra fonts..."
-  mkdir -p "/usr/share/fonts/truetype/${BRANCH_ID}"
-  cp "${RESOURCE_DIR}/"*.ttf "/usr/share/fonts/truetype/${BRANCH_ID}"
-  chmod -R +r "/usr/share/fonts/truetype/${BRANCH_ID}"
-  REBUILD_CACHE=YES
+    echo && echo "installing extra fonts..."
+    mkdir -p "/usr/share/fonts/truetype/${BRANCH_ID}"
+    cp "${RESOURCE_DIR}/"*.ttf "/usr/share/fonts/truetype/${BRANCH_ID}"
+    chmod -R +r "/usr/share/fonts/truetype/${BRANCH_ID}"
+    REBUILD_CACHE=YES
 else
-  [ "$DEBUG" ] && echo "DEBUG: no fonts to install"
+    [ "$DEBUG" ] && echo "DEBUG: no fonts to install"
 fi
 
 if [ "${REBUILD_CACHE^^}" == "YES" ]; then
-  fc-cache -fs
+    fc-cache -fs
 fi
 
 # ------------------------------------------------------------------------------
@@ -354,12 +367,12 @@ dpkg --status openssh-server 1>/dev/null 2>&1
 if [ $? == 0 ] \
 && ! [ -e /etc/ssh/ssh_host_dsa_key ] \
 && ! [ -e /etc/ssh/ssh_host_ecdsa_key ]; then
-  dpkg-reconfigure openssh-server  #tested - works without conflicting with apt-get install. Also OK with apt-get update?
+    dpkg-reconfigure openssh-server  #tested - works without conflicting with apt-get install. Also OK with apt-get update?
 
-  if [ "$(pwd)" != "/" ]; then
-    # SSH restart since probably running interactively"
-    /etc/init.d/ssh restart
-  fi
+    if [ "$(pwd)" != "/" ]; then
+        # SSH restart since probably running interactively"
+        /etc/init.d/ssh restart
+    fi
 fi
 
 # ------------------------------------------------------------------------------
