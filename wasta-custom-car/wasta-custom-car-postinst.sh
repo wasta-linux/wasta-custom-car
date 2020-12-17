@@ -146,7 +146,7 @@ if [[ ! -e /etc/skel/.config/autostart/syncthing-start.desktop ]]; then
 fi
 # Do it for existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
-while IFS= read -r user; do
+while read -r user; do
     if [[ $(grep "$user:" /etc/passwd) ]]; then
         mkdir -p -m 755 "/home/$user/.config/autostart"
         cp "$sta" "/home/$user/.config/autostart/syncthing-start.desktop"
@@ -158,16 +158,16 @@ done <<< "$users"
 # Install GNOME extensions at user level (system level requires special GNOME session).
 extensions=$(find "${RESOURCE_DIR}"/extensions/* -maxdepth 0 -type d)
 # First do /etc/skel for future users.
-for ext in "${extensions}"; do
-    mkdir -p /etc/skel/.local/gnome-shell/extensions
-    cp -r "${ext}" /etc/skel/.local/gnome-shell/extensions
+for ext in ${extensions}; do
+    mkdir -p /etc/skel/.local/share/gnome-shell/extensions
+    cp -r "${ext}" /etc/skel/.local/share/gnome-shell/extensions
 done
 # Then do existing users.
-while IFS= read -r user; do
+while read -r user; do
     if [[ $(grep "$user:" /etc/passwd) ]]; then
         dest="/home/$user/.local/share/gnome-shell/extensions"
         mkdir -p -m 755 "${dest}"
-        for ext in "${extensions}"; do
+        for ext in ${extensions}; do
             cp -r "${ext}" "${dest}"
         done
         chown -R $user:$user "/home/$user/.local/share/gnome-shell/extensions"

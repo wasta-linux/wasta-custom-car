@@ -1,3 +1,9 @@
+wasta-custom-car (0.2.10) focal; urgency=medium
+
+  * Fixed quoting problem in for loop for installing extensions.
+
+ -- Nate Marti <nate_marti@sil.org>  Thu, 17 Dec 2020 17:04:19 +0100
+
 wasta-custom-car (0.2.9) focal; urgency=medium
 
   * Added extension to remove '___ is ready' popups.
