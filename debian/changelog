@@ -1,3 +1,9 @@
+wasta-custom-car (0.2.11) focal; urgency=medium
+
+  * Fixed file ownership problem.
+
+ -- Nate Marti <nate_marti@sil.org>  Thu, 17 Dec 2020 17:08:20 +0100
+
 wasta-custom-car (0.2.10) focal; urgency=medium
 
   * Fixed quoting problem in for loop for installing extensions.

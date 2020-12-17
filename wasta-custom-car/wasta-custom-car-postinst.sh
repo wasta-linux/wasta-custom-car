@@ -170,7 +170,7 @@ while read -r user; do
         for ext in ${extensions}; do
             cp -r "${ext}" "${dest}"
         done
-        chown -R $user:$user "/home/$user/.local/share/gnome-shell/extensions"
+        chown -R $user:$user "/home/$user/.local"
         chmod -R 755 "/home/$user/.local/share/gnome-shell/extensions"
     fi
 done <<< "$users"
