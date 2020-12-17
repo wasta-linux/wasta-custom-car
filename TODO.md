@@ -1,9 +1,5 @@
 - [x] Ensure that French server (not main server) is used for downloading Ubuntu updates.
   - Decided against it for now. Need to confirm that the Main Server is a problem.
 - [x] Remove Keyman PPA.
-- [ ] Get rid of the "___ is ready" popups.
-  - https://extensions.gnome.org/extension/1007/window-is-ready-notification-remover/
-    - This extension will get rid of the notification without also giving focus to the new window.
-  - https://extensions.gnome.org/extension/1236/noannoyance/
-    - This one always gives new windows the focus (which could be a real pain [this is what PT does!]).
+- [x] Get rid of the "___ is ready" popups.
 - [ ] Test the changes.
