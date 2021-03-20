@@ -183,12 +183,13 @@ if [ $(which snap) ]; then
     snap set system refresh.metered=hold
     snap set system refresh.timer='sun5,02:00'
     snap set system refresh.retain=2
+    # Install default snaps.
+    if [[ ! -e /snap/bin/skype ]]; then
+        snap install skype --classic
+    fi
 fi
 
-# Install default snaps.
-if [[ ! -e /snap/bin/skype ]]; then
-    snap install skype --classic
-fi
+
 
 # ------------------------------------------------------------------------------
 # LibreOffice PPA management

@@ -1,3 +1,9 @@
+wasta-custom-car (0.2.12) focal; urgency=medium
+
+  * Only install snaps if snapd is installed.
+
+ -- Nate Marti <nate_marti@sil.org>  Sat, 20 Mar 2021 06:22:37 +0100
+
 wasta-custom-car (0.2.11) focal; urgency=medium
 
   * Fixed file ownership problem.
