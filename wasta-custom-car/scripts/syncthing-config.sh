@@ -10,7 +10,8 @@
 
 ST_HOME="/home/nate/st/test"
 CONFIG_XML="${ST_HOME}/config.xml"
-BACKUP_DIR="/home/nate/st/sauvegarde"
+BACKUP_DIR="$(xdg-user-dir DESKTOP)/sauvegarde"
+BACKUP_ID="$HOSTNAME-$(date +%Y-%m-%d)"
 SERVACATBA_DEVICE_ID="V6RALLL-XMSFRM5-SKWRPRR-WVSNFLV-KJLKSW5-HVXZOH3-NJHKHMX-SYDUVAO"
 
 # Create default shared folder.
@@ -71,7 +72,7 @@ already_added=$(
 )
 if [[ ! $already_added ]]; then
     echo "Adding $BACKUP_DIR to syncthing config."
-    _id="$HOSTNAME-$RANDOM"
+    _id="$BACKUP_ID"
     _label="$_id backup"
     _path="$BACKUP_DIR"
     _type="sendonly"
@@ -149,12 +150,16 @@ if [[ $still_added ]]; then
         "$CONFIG_XML"
 fi
 
-# Modify options to ACATBA preferences.
+# Modify options according to ACATBA preferences.
 startBrowser="false"
 # Opt out of telemetry.
 urAccepted="-1"
 urSeen="3"
-# TODO: Figure out xmlstarlet command and options.
+xmlstarlet edit --inplace \
+    --update "/configuration/options/startBrowser" -v "$startBrowser" \
+    --update "/configuration/options/urAccepted" -v "$urAccepted" \
+    --update "/configuration/options/urSeen" -v "$urSeen" \
+    "$CONFIG_XML"
 
 
 # Ensure that syncthing is restarted after editing config.xml.
