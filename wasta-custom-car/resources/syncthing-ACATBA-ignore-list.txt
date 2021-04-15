@@ -1,0 +1,65 @@
+// Reference this file in a syncthing folder's .stignore file with:
+// #include ACATBA-ignore-list.txt
+
+// allowed folders
+!/Adapt It Unicode Work
+!/AppData/Roaming/Thunderbird/Profiles
+!/Bloom
+!/Bureau/
+!/Documents/
+!/Desktop/
+!/*Paratext*Projects
+!/WeSay
+/*
+
+// audio
+(?i)*.aac
+(?i)*.aiff
+(?i)*.flac
+(?i)*.m4a
+(?i)*.mp3
+(?i)*.ogg
+(?i)*.wav
+(?i)*.wma
+
+// image
+(?i)*.bmp
+(?i)*.gif
+(?i)*.jpeg
+(?i)*.jpg
+(?i)*.png
+(?i)*.svg
+(?i)*.tif
+(?i)*.tiff
+
+// software/compressed
+(?i)*.7z
+(?i)*.deb
+(?i)*.dll
+(?i)*.exe
+(?i)*.img
+(?i)*.iso
+(?i)*.jar
+(?i)*.msi
+(?i)*.tar
+(?i)*.zip
+
+// video
+(?i)*.3gp
+(?i)*.avi
+(?i)*.flv
+(?i)*.m2v
+(?i)*.m4v
+(?i)*.mkv
+(?i)*.mov
+(?i)*.mp4
+(?i)*.mpeg
+(?i)*.mpg
+(?i)*.mpv
+(?i)*.ogv
+(?i)*.vob
+(?i)*.webm
+(?i)*.wmv
+
+// by filesize
+// 100 M
