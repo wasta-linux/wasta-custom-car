@@ -29,7 +29,9 @@ fi
 # ------------------------------------------------------------------------------
 
 BRANCH_ID=car
-RESOURCE_DIR=/usr/share/wasta-custom-${BRANCH_ID}/resources
+SHARE_DIR=/usr/share/wasta-custom-${BRANCH_ID}
+RESOURCE_DIR=${SHARE_DIR}/resources
+SCRIPTS_DIR=${SHARE_DIR}/scripts
 DEBUG=""  #set to yes to enable testing helps
 
 # ------------------------------------------------------------------------------
@@ -137,21 +139,12 @@ if [[ $(dpkg -l | grep skypeforlinux) ]]; then
     apt-get purge --assume-yes skypeforlinux
 fi
 
-# Set syncthing to autostart.
-sta=/usr/share/applications/syncthing-start.desktop
-# Do it for future users.
-if [[ ! -e /etc/skel/.config/autostart/syncthing-start.desktop ]]; then
-    mkdir -p /etc/skel/.config/autostart
-    cp "$sta" /etc/skel/.config/autostart
-fi
-# Do it for existing users.
+# Set syncthing default config for all existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 while read -r user; do
     if [[ $(grep "$user:" /etc/passwd) ]]; then
-        mkdir -p -m 755 "/home/$user/.config/autostart"
-        cp "$sta" "/home/$user/.config/autostart/syncthing-start.desktop"
-        chown -R $user:$user "/home/$user/.config/autostart"
-        chmod 644 "/home/$user/.config/autostart/syncthing-start.desktop"
+        # Run config script.
+        "${SCRIPTS_DIR}/syncthing-config.sh" "$user"
     fi
 done <<< "$users"
 

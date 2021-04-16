@@ -1,30 +1,54 @@
 #!/bin/bash
 
-# A lot of work to do here.
-#   - initialize syncthing (is this even possible in a root script?)
-#   - add servacatba device and share sauvegarde folder using xmlstarlet like this:
-#       - Ref:
-#           - https://stackoverflow.com/questions/6873070/how-to-edit-xml-using-bash-script
-#           - https://docs.syncthing.net/users/config.html
+# This script ensures the proper configuration of syncthing.
+#   - Initialize syncthing.
+#   - Add servacatba device and share $HOME folder using xmlstarlet.
+#       - https://stackoverflow.com/questions/6873070/how-to-edit-xml-using-bash-script
+#       - https://docs.syncthing.net/users/config.html
+#   - Set preferred options for ACATBA.
 
 
-ST_HOME="/home/nate/st/test"
-CONFIG_XML="${ST_HOME}/config.xml"
-BACKUP_DIR="$(xdg-user-dir DESKTOP)/sauvegarde"
-BACKUP_ID="$HOSTNAME-$(date +%Y-%m-%d)"
+# Ensure that REAL_USER is properly given.
+if [[ ! $1 ]]; then
+    echo "Need to give user as first argument. Exiting."
+    exit 1
+fi
+REAL_USER="$1"
+if [[ ! $(find /home/* -maxdepth 0 -name "$REAL_USER" -type d) ]]; then
+    echo "Invalid user. Exiting."
+    exit 1
+fi
+CONFIG_DIR="/home/${REAL_USER}/.config/syncthing"
+CONFIG_XML="${CONFIG_DIR}/config.xml"
+BACKUP_DIR="/home/$REAL_USER"
+DEVICE_NAME="${HOSTNAME}-${REAL_USER}"
+BACKUP_NAME="${DEVICE_NAME}-$(date +%Y-%m-%d)"
 SERVACATBA_DEVICE_ID="V6RALLL-XMSFRM5-SKWRPRR-WVSNFLV-KJLKSW5-HVXZOH3-NJHKHMX-SYDUVAO"
 
-# Create default shared folder.
-# TODO: use xdg-desktop "Desktop"?
-mkdir -p $BACKUP_DIR
+# Ensure syncthing is added to autostart folder and up-to-date.
+sta_name=syncthing-start.desktop
+cp -fl /usr/share/applications/$sta_name /home/$REAL_USER/.config/autostart/$sta_name
 
-# Initialize ST_HOME folder.
+# Initialize CONFIG_DIR folder.
 if [[ ! -e "$CONFIG_XML" ]]; then
     echo "Generating syncthing config and key files."
-    syncthing -generate="$ST_HOME"
+    sudo --user=$REAL_USER syncthing -generate="$CONFIG_DIR"
 fi
 # Get Device ID.
-THIS_DEVICE_ID=$(syncthing -home="$ST_HOME" -device-id)
+THIS_DEVICE_ID=$(sudo --user=$REAL_USER syncthing -home="$CONFIG_DIR" -device-id)
+
+# TODO: Ensure that device name is set to $BACKUP_NAME.
+current_device_name=$(
+    xmlstarlet select --template --match \
+        "/configuration/device[@id='"$THIS_DEVICE_ID"']" -v "@name" -n \
+        "$CONFIG_XML"
+)
+if [[ ! "$current_device_name" == "$DEVICE_NAME" ]]; then
+    echo "Changing device name to $DEVICE_NAME."
+    xmlstarlet edit --inplace \
+        --update "/configuration/device[@id='"$THIS_DEVICE_ID"']/@name" -v "$DEVICE_NAME" \
+        "$CONFIG_XML"
+fi
 
 # Ensure that servacatba is added to syncthing config.
 already_added=$(
@@ -72,7 +96,7 @@ already_added=$(
 )
 if [[ ! $already_added ]]; then
     echo "Adding $BACKUP_DIR to syncthing config."
-    _id="$BACKUP_ID"
+    _id="$BACKUP_NAME"
     _label="$_id backup"
     _path="$BACKUP_DIR"
     _type="sendonly"
@@ -148,6 +172,8 @@ if [[ $still_added ]]; then
     xmlstarlet edit --inplace \
         --delete "/configuration/folder[@id='default']" \
         "$CONFIG_XML"
+    # Delete actual folder.
+    rm -fr "/home/$REAL_USER/Sync"
 fi
 
 # Modify options according to ACATBA preferences.
@@ -161,5 +187,14 @@ xmlstarlet edit --inplace \
     --update "/configuration/options/urSeen" -v "$urSeen" \
     "$CONFIG_XML"
 
+# Ensure that .stignore file exists.
+ignore_list_name="syncthing-ACATBA-ignore-list.txt"
+ignore_list="/usr/share/wasta-custom-car/resources/$ignore_list_name"
+st_ignore="${BACKUP_DIR/.stignore}"
+if [[ ! -e "$st_ignore" ]]; then
+    sudo --user=$REAL_USER touch $st_ignore
+    echo "#include $ignore_list" > $st_ignore
+fi
 
 # Ensure that syncthing is restarted after editing config.xml.
+sudo --user=$REAL_USER systemctl --user restart syncthing.service
