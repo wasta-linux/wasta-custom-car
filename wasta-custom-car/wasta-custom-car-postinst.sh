@@ -142,7 +142,8 @@ fi
 # Set syncthing default config for all existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 while read -r user; do
-    if [[ $(grep "$user:" /etc/passwd) ]]; then
+    # Ignore admin user.
+    if [[ $(grep "$user:" /etc/passwd) ]] && [[ $user != 'administrateur' ]]; then
         # Run config script.
         "${SCRIPTS_DIR}/syncthing-config.sh" "$user"
     fi
