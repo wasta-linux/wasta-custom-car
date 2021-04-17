@@ -201,4 +201,6 @@ if [[ ! -e "$st_ignore" ]]; then
 fi
 
 # Ensure that syncthing is restarted after editing config.xml.
-sudo --user=$REAL_USER --set-home dbus-launch deb-systemd-invoke --user restart syncthing.service
+#   Forcing reboot becuase I haven't found a way to restart a systemd user
+#   service within root script.
+touch /var/run/reboot-required
