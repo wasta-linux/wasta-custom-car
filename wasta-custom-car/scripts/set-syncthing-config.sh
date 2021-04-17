@@ -27,7 +27,7 @@ SERVACATBA_DEVICE_ID="V6RALLL-XMSFRM5-SKWRPRR-WVSNFLV-KJLKSW5-HVXZOH3-NJHKHMX-SY
 
 # Ensure syncthing is added to autostart folder and up-to-date.
 sta_name=syncthing-start.desktop
-cp -fl /usr/share/applications/$sta_name /home/$REAL_USER/.config/autostart/$sta_name
+sudo --user=$REAL_USER cp -f /usr/share/applications/$sta_name /home/$REAL_USER/.config/autostart/$sta_name
 
 # Initialize CONFIG_DIR folder.
 if [[ ! -e "$CONFIG_XML" ]]; then
@@ -191,10 +191,12 @@ xmlstarlet edit --inplace \
 ignore_list_name="syncthing-ACATBA-ignore-list.txt"
 ignore_list="/usr/share/wasta-custom-car/resources/$ignore_list_name"
 st_ignore="${BACKUP_DIR}/.stignore"
+ignore_list_user="${BACKUP_DIR}/.${ignore_list_name}"
 if [[ ! -e "$st_ignore" ]]; then
     echo "Adding .stignore file to $BACKUP_DIR."
+    sudo --user=$REAL_USER cp "$ignore_list" "$ignore_list_user"
     sudo --user=$REAL_USER touch $st_ignore
-    echo "#include $ignore_list" > $st_ignore
+    echo "#include $ignore_list_user" > $st_ignore
 fi
 
 # Ensure that syncthing is restarted after editing config.xml.
