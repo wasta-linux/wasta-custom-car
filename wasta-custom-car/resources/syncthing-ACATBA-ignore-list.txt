@@ -4,6 +4,7 @@
 // allowed folders
 !/Adapt It Unicode Work
 !/AppData/Roaming/Thunderbird/Profiles
+!/.thunderbird
 !/Bloom
 !/Bureau/
 !/Documents/
