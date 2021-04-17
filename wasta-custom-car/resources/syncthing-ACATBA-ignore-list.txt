@@ -1,6 +1,17 @@
 // Reference this file in a syncthing folder's .stignore file with:
 // #include ACATBA-ignore-list.txt
 
+// Allowed Whole Folders
+// -----------------------------------------------------------------------------
+!/Adapt It Unicode Work
+!/AppData/Roaming/Thunderbird/Profiles
+!/.thunderbird
+!/Bloom
+!/*Paratext*Projects
+!/WeSay
+
+// Ignored File Types
+// -----------------------------------------------------------------------------
 // audio
 (?i)*.aac
 (?i)*.aiff
@@ -53,14 +64,9 @@
 // by filesize
 // 100 M
 
-// allowed folders
-!/Adapt It Unicode Work
-!/AppData/Roaming/Thunderbird/Profiles
-!/.thunderbird
-!/Bloom
+// Allowed Filtered Folders
+// -----------------------------------------------------------------------------
 !/Bureau/
 !/Documents/
 !/Desktop/
-!/*Paratext*Projects
-!/WeSay
 /*
