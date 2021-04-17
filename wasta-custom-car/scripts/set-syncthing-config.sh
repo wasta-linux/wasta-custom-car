@@ -203,4 +203,4 @@ fi
 # Ensure that syncthing is restarted after editing config.xml.
 #   Forcing reboot becuase I haven't found a way to restart a systemd user
 #   service within root script.
-touch /var/run/reboot-required
+#touch /var/run/reboot-required
