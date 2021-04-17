@@ -1,3 +1,10 @@
+wasta-custom-car (0.3) focal; urgency=medium
+
+  * Add syncthing config.
+  * Update SimpleNetSpeed and WindowIsReady Gnome extensions.
+
+ -- Nate Marti <nate_marti@sil.org>  Sat, 17 Apr 2021 17:00:01 +0100
+
 wasta-custom-car (0.2.12) focal; urgency=medium
 
   * Only install snaps if snapd is installed.
