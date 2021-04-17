@@ -145,7 +145,7 @@ while read -r user; do
     # Ignore admin user.
     if [[ $(grep "$user:" /etc/passwd) ]] && [[ $user != 'administrateur' ]]; then
         # Run config script.
-        "${SCRIPTS_DIR}/syncthing-config.sh" "$user"
+        "${SCRIPTS_DIR}/set-syncthing-config.sh" "$user"
     fi
 done <<< "$users"
 
