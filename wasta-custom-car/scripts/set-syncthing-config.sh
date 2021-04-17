@@ -200,4 +200,6 @@ if [[ ! -e "$st_ignore" ]]; then
 fi
 
 # Ensure that syncthing is restarted after editing config.xml.
-sudo --user=$REAL_USER systemctl --user restart syncthing.service
+sudo --user=$REAL_USER --set-home dbus-launch systemctl --user restart syncthing.service
+# immediately kill new dbus process.
+kill $(pgrep -n dbus-daemon)
