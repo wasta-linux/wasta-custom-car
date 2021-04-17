@@ -190,16 +190,20 @@ xmlstarlet edit --inplace \
 # Ensure that .stignore file exists.
 ignore_list_name="syncthing-ACATBA-ignore-list.txt"
 ignore_list="/usr/share/wasta-custom-car/resources/$ignore_list_name"
-st_ignore="${BACKUP_DIR}/.stignore"
 ignore_list_user=".${ignore_list_name}"
+# Update user's ignore list.
+sudo --user=$REAL_USER cp -f "$ignore_list" "$ignore_list_user"
+st_ignore="${BACKUP_DIR}/.stignore"
 if [[ ! -e "$st_ignore" ]]; then
     echo "Adding .stignore file to $BACKUP_DIR."
-    sudo --user=$REAL_USER cp "$ignore_list" "$ignore_list_user"
     sudo --user=$REAL_USER touch $st_ignore
     echo "#include $ignore_list_user" > $st_ignore
 fi
 
 # Ensure that syncthing is restarted after editing config.xml.
-sudo --user=$REAL_USER --set-home dbus-launch systemctl --user restart syncthing.service
-# immediately kill new dbus process.
-kill $(pgrep -n dbus-daemon)
+# sudo --user=$REAL_USER --set-home dbus-launch systemctl --user restart syncthing.service
+sudo --user=$REAL_USER deb-systemd-invoke --user restart syncthing.service
+# if [[ $? -eq 0 ]]; then
+    # immediately kill new dbus process.
+    # kill $(pgrep -n dbus-daemon)
+#fi
