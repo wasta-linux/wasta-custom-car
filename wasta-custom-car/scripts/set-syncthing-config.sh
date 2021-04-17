@@ -37,7 +37,7 @@ fi
 # Get Device ID.
 THIS_DEVICE_ID=$(sudo --user=$REAL_USER syncthing -home="$CONFIG_DIR" -device-id)
 
-# TODO: Ensure that device name is set to $BACKUP_NAME.
+# Ensure that device name is set to $DEVICE_NAME.
 current_device_name=$(
     xmlstarlet select --template --match \
         "/configuration/device[@id='"$THIS_DEVICE_ID"']" -v "@name" -n \
