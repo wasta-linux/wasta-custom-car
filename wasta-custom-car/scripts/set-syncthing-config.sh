@@ -190,8 +190,9 @@ xmlstarlet edit --inplace \
 # Ensure that .stignore file exists.
 ignore_list_name="syncthing-ACATBA-ignore-list.txt"
 ignore_list="/usr/share/wasta-custom-car/resources/$ignore_list_name"
-st_ignore="${BACKUP_DIR/.stignore}"
+st_ignore="${BACKUP_DIR}/.stignore"
 if [[ ! -e "$st_ignore" ]]; then
+    echo "Adding .stignore file to $BACKUP_DIR."
     sudo --user=$REAL_USER touch $st_ignore
     echo "#include $ignore_list" > $st_ignore
 fi
