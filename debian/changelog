@@ -1,3 +1,10 @@
+wasta-custom-car (0.3.1) focal; urgency=medium
+
+  * Fix syncthing ignore file location.
+  * Move necessary packages to dependencies rather than recommends.
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 19 Apr 2021 09:42:01 +0100
+
 wasta-custom-car (0.3) focal; urgency=medium
 
   * Add syncthing config.

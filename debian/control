@@ -7,9 +7,12 @@ Standards-Version: 3.9.7
 
 Package: wasta-custom-car
 Architecture: all
-Depends: ${misc:Depends}, wasta-backgrounds
-Recommends: wasta-gnome-focal | wasta-gnome-bionic,
- firefox-locale-fr,
+Depends: ${misc:Depends},
+ wasta-backgrounds,
+ wasta-gnome-focal,
+ snapd,
+ syncthing
+Recommends: firefox-locale-fr,
  gimp-help-fr,
  gnome-user-docs-fr,
  gnome-getting-started-docs-fr,
@@ -26,8 +29,6 @@ Recommends: wasta-gnome-focal | wasta-gnome-bionic,
  libreoffice-help-fr,
  libreoffice-l10n-fr,
  mythes-fr,
- snapd,
- syncthing,
  thunderbird-locale-fr,
  tt-bandwidth-manager,
  wfrench
