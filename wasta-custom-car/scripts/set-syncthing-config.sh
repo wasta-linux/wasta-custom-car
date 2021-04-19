@@ -192,7 +192,7 @@ ignore_list_name="syncthing-ACATBA-ignore-list.txt"
 ignore_list="/usr/share/wasta-custom-car/resources/$ignore_list_name"
 ignore_list_user=".${ignore_list_name}"
 # Update user's ignore list.
-sudo --user=$REAL_USER cp -f "$ignore_list" "$ignore_list_user"
+sudo --user=$REAL_USER cp -f "$ignore_list" "${BACKUP_DIR}/${ignore_list_user}"
 st_ignore="${BACKUP_DIR}/.stignore"
 if [[ ! -e "$st_ignore" ]]; then
     echo "Adding .stignore file to $BACKUP_DIR."
