@@ -1,5 +1,5 @@
 // Reference this file in a syncthing folder's .stignore file with:
-// #include ACATBA-ignore-list.txt
+// #include syncthing-ACATBA-ignore-list.txt
 
 // Allowed Whole Folders
 // -----------------------------------------------------------------------------
@@ -32,16 +32,31 @@
 (?i)*.tif
 (?i)*.tiff
 
+// logos
+(?i)*.idx
+(?i)*.lbsmps
+(?i)*.lbsprn
+(?i)*.lbsrvi
+(?i)*.lbssyn
+(?i)*.logos4
+(?i)*.lxn
+
+
 // software/compressed
 (?i)*.7z
 (?i)*.deb
 (?i)*.dll
 (?i)*.exe
+(?i)*.git
 (?i)*.img
 (?i)*.iso
 (?i)*.jar
 (?i)*.msi
+(?i)*.snap
+(?i)*.so
 (?i)*.tar
+(?i)*.tgz
+(?i)*.xz
 (?i)*.zip
 
 // video
