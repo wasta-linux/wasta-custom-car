@@ -200,7 +200,12 @@ if [[ ! -e "$st_ignore" ]]; then
     echo "#include $ignore_list_user" > $st_ignore
 fi
 
+# Restart syncthing. But "restart" happens too fast. Need to do something different.
+pkill syncthing
+sudo --user $REAL_USER XDG_RUNTIME_DIR="/run/user/$(id -u $REAL_USER)" systemctl --user restart syncthing.service
+
+# NOT needed if restart works above.
 # Ensure that syncthing is restarted after editing config.xml.
 #   Forcing reboot becuase I haven't found a way to restart a systemd user
 #   service within root script.
-/usr/share/update-notifier/notify-reboot-required
+#/usr/share/update-notifier/notify-reboot-required
