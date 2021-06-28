@@ -1,3 +1,9 @@
+wasta-custom-car (0.3.3) focal; urgency=medium
+
+  * Install skype deb instead of snap for easier system setup.
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 28 Jun 2021 07:20:48 -0500
+
 wasta-custom-car (0.3.2) focal; urgency=medium
 
   * Update syncthing ignore file.
