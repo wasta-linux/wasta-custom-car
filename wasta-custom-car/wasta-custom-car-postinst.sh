@@ -126,17 +126,33 @@ echo "# deb http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main
 echo "# deb-src http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main #wasta" | \
     tee -a "$keyman_list"
 
-# Disable skypeforlinux deb repo.
-skype_list="${APT_SOURCES_D}/skype-stable.list"
-truncate --size=0 "$skype_list"
-echo "# deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
-    tee -a "$skype_list"
-echo "# deb-src [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
-    tee -a "$skype_list"
+# 2021-06-28: Installing skype debian package for easier installation.
+# # Disable skypeforlinux deb repo.
+# skype_list="${APT_SOURCES_D}/skype-stable.list"
+# truncate --size=0 "$skype_list"
+# echo "# deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+#     tee -a "$skype_list"
+# echo "# deb-src [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+#     tee -a "$skype_list"
 
-# Remove skypeforlinux deb.
+# Ensure skypeforlinux deb repo.
+if [[ $(grep '# deb ' "$skype_list") ]]; then
+    truncate --size=0 "$skype_list"
+    echo "deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+        tee -a "$skype_list"
+    echo "# deb-src [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+        tee -a "$skype_list"
+fi
+
+
+# # Remove skypeforlinux deb.
+# if [[ $(dpkg -l | grep skypeforlinux) ]]; then
+#     apt-get purge --assume-yes skypeforlinux
+# fi
+
+# Ensure skypeforlinux deb is installed.
 if [[ $(dpkg -l | grep skypeforlinux) ]]; then
-    apt-get purge --assume-yes skypeforlinux
+    apt-get install --assume-yes skypeforlinux
 fi
 
 # Set syncthing default config for all existing users.
@@ -177,12 +193,12 @@ if [ $(which snap) ]; then
     snap set system refresh.metered=hold
     snap set system refresh.timer='sun5,02:00'
     snap set system refresh.retain=2
-    # Install default snaps.
-    if [[ ! -e /snap/bin/skype ]]; then
-        snap install skype --classic
-    fi
+    # 2021-06-28: Removing skype snap in favor of debian package for easier installation.
+    # # Install default snaps.
+    # if [[ ! -e /snap/bin/skype ]]; then
+    #     snap install skype --classic
+    # fi
 fi
-
 
 
 # ------------------------------------------------------------------------------
