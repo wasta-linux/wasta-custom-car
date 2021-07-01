@@ -128,7 +128,7 @@ echo "# deb-src http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} 
 
 # 2021-06-28: Installing skype debian package for easier installation.
 # # Disable skypeforlinux deb repo.
-# skype_list="${APT_SOURCES_D}/skype-stable.list"
+skype_list="${APT_SOURCES_D}/skype-stable.list"
 # truncate --size=0 "$skype_list"
 # echo "# deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
 #     tee -a "$skype_list"
@@ -136,7 +136,7 @@ echo "# deb-src http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} 
 #     tee -a "$skype_list"
 
 # Ensure skypeforlinux deb repo.
-if [[ $(grep '# deb ' "$skype_list") ]]; then
+if [[ $(grep '# deb ' "$skype_list") ]] || [[ ! -e "$skype_list" ]]; then
     truncate --size=0 "$skype_list"
     echo "deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
         tee -a "$skype_list"
