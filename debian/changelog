@@ -1,3 +1,9 @@
+wasta-custom-car (0.3.4) focal; urgency=medium
+
+  * Install squid-deb-proxy-client.
+
+ -- Nate Marti <nate_marti@sil.org>  Thu, 01 Jul 2021 07:35:04 -0500
+
 wasta-custom-car (0.3.3) focal; urgency=medium
 
   * Install skype deb instead of snap for easier system setup.
