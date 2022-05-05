@@ -66,6 +66,7 @@
 (?i)*.m2v
 (?i)*.m4v
 (?i)*.mkv
+(?i)*.mod
 (?i)*.mov
 (?i)*.mp4
 (?i)*.mpeg
