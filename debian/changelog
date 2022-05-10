@@ -1,3 +1,9 @@
+wasta-custom-car (0.3.8) jammy; urgency=medium
+
+  * Remove squid-deb-proxy-client.
+
+ -- Nate Marti <nate_marti@sil.org>  Fri, 10 Mai 2022 12:24:13 +0100
+
 wasta-custom-car (0.3.7) jammy; urgency=medium
 
   * Added MOD to syncthing's excluded filetypes.

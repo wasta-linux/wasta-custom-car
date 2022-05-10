@@ -151,7 +151,7 @@ fi
 # fi
 
 # Ensure skypeforlinux deb is installed.
-if [[ $(dpkg -l | grep skypeforlinux) ]]; then
+if [[ -z $(dpkg -l | grep skypeforlinux) ]]; then
     apt-get install --assume-yes skypeforlinux
 fi
 
@@ -198,6 +198,9 @@ if [ $(which snap) ]; then
     # if [[ ! -e /snap/bin/skype ]]; then
     #     snap install skype --classic
     # fi
+    if [[ -x /snap/bin/skype ]]; then
+        snap remove --purge --no-wait skype
+    fi
 fi
 
 
