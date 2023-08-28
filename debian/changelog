@@ -1,3 +1,9 @@
+wasta-custom-car (0.3.9) jammy; urgency=medium
+
+  * Ensure installation of chromium snap.
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 28 Aug 2023 12:32:10 +0100
+
 wasta-custom-car (0.3.8) jammy; urgency=medium
 
   * Remove squid-deb-proxy-client.
