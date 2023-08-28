@@ -198,8 +198,15 @@ if [ $(which snap) ]; then
     # if [[ ! -e /snap/bin/skype ]]; then
     #     snap install skype --classic
     # fi
-    if [[ -x /snap/bin/skype ]]; then
-        snap remove --purge --no-wait skype
+    # 2023-08-28 ndm: Don't force particular skype package.
+    # if [[ -x /snap/bin/skype ]]; then
+    #     snap remove --purge --no-wait skype
+    # fi
+
+    # Ensure installation of chromium.
+    if [[ ! -x /snap/bin/chromium ]]; then
+        echo "Installation du paquet snap de chromium (ça peut trainer)..."
+        snap install chromium
     fi
 fi
 
