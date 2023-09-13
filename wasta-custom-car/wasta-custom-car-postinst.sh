@@ -16,7 +16,7 @@
 # Check to ensure running as root
 # ------------------------------------------------------------------------------
 #   No fancy "double click" here because normal user should never need to run
-if [ $(id -u) -ne 0 ]; then
+if [[ $(id -u) -ne 0 ]]; then
     echo
     echo "You must run this script with sudo." >&2
     echo "Exiting...."
@@ -29,9 +29,9 @@ fi
 # ------------------------------------------------------------------------------
 
 BRANCH_ID=car
-SHARE_DIR=/usr/share/wasta-custom-${BRANCH_ID}
-RESOURCE_DIR=${SHARE_DIR}/resources
-SCRIPTS_DIR=${SHARE_DIR}/scripts
+SHARE_DIR="/usr/share/wasta-custom-${BRANCH_ID}"
+RESOURCE_DIR="${SHARE_DIR}/resources"
+SCRIPTS_DIR="${SHARE_DIR}/scripts"
 DEBUG=""  #set to yes to enable testing helps
 
 # ------------------------------------------------------------------------------
@@ -94,8 +94,8 @@ echo "*** Beginning wasta-custom-${BRANCH_ID}-postinst.sh for ${REPO_SERIES}"
 echo
 
 APT_SOURCES_D=/etc/apt/sources.list.d
-if [ -x /usr/bin/wasta-offline ] &&  [[ $(pgrep -c wasta-offline) > 0 ]]; then
-    if [ -e /etc/apt/sources.list.d.wasta ]; then
+if [[ -x /usr/bin/wasta-offline ]] &&  [[ $(pgrep -c wasta-offline) -gt 0 ]]; then
+    if [[ -e /etc/apt/sources.list.d.wasta ]]; then
         echo "*** wasta-offline 'offline only' mode detected"
         echo
         APT_SOURCES_D=/etc/apt/sources.list.d.wasta
@@ -110,7 +110,7 @@ fi
 # ------------------------------------------------------------------------------
 # Notify me of a new Ubuntu version: never, normal, lts
 #   (note: apparently /etc/update-manager/release-upgrades.d doesn't work)
-if [ -e /etc/update-manager/release-upgrades ]; then
+if [[ -e /etc/update-manager/release-upgrades ]]; then
     sed -i -e 's|^Prompt=.*|Prompt=never|' /etc/update-manager/release-upgrades
 fi
 
@@ -120,29 +120,32 @@ dpkg-divert --local --rename --divert '/etc/apt/apt.conf.d/#50appstream' /etc/ap
 
 # Disable keyman deb repo.
 keyman_list="${APT_SOURCES_D}/keymanapp-ubuntu-keyman-${REPO_SERIES}.list"
-truncate --size=0 "$keyman_list"
-echo "# deb http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main #wasta" | \
-    tee -a "$keyman_list"
-echo "# deb-src http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main #wasta" | \
-    tee -a "$keyman_list"
+if [[ -e "$keyman_list" ]]; then
+    truncate --size=0 "$keyman_list"
+    echo "# deb http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main #wasta" | \
+        tee -a "$keyman_list"
+    echo "# deb-src http://ppa.launchpad.net/keymanapp/keyman/ubuntu ${REPO_SERIES} main #wasta" | \
+        tee -a "$keyman_list"
+fi
 
-# 2021-06-28: Installing skype debian package for easier installation.
-# # Disable skypeforlinux deb repo.
+# Disable skypeforlinux deb repo.
 skype_list="${APT_SOURCES_D}/skype-stable.list"
-# truncate --size=0 "$skype_list"
-# echo "# deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
-#     tee -a "$skype_list"
-# echo "# deb-src [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
-#     tee -a "$skype_list"
-
-# Ensure skypeforlinux deb repo.
-if [[ $(grep '# deb ' "$skype_list") ]] || [[ ! -e "$skype_list" ]]; then
+if [[ -e "$skype_list" ]]; then
     truncate --size=0 "$skype_list"
-    echo "deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+    echo "# deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
         tee -a "$skype_list"
     echo "# deb-src [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
         tee -a "$skype_list"
 fi
+
+# # Ensure skypeforlinux deb repo.
+# if [[ $(grep '# deb ' "$skype_list") ]] || [[ ! -e "$skype_list" ]]; then
+#     truncate --size=0 "$skype_list"
+#     echo "deb [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+#         tee -a "$skype_list"
+#     echo "# deb-src [arch=amd64] https://repo.skype.com/deb stable main #wasta" | \
+#         tee -a "$skype_list"
+# fi
 
 
 # # Remove skypeforlinux deb.
@@ -150,16 +153,16 @@ fi
 #     apt-get purge --assume-yes skypeforlinux
 # fi
 
-# Ensure skypeforlinux deb is installed.
-if [[ -z $(dpkg -l | grep skypeforlinux) ]]; then
-    apt-get install --assume-yes skypeforlinux
-fi
+# # Ensure skypeforlinux deb is installed.
+# if [[ -z $(dpkg -l | grep skypeforlinux) ]]; then
+#     apt-get install --assume-yes skypeforlinux
+# fi
 
 # Set syncthing default config for all existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 while read -r user; do
     # Ignore admin user.
-    if [[ $(grep "$user:" /etc/passwd) ]] && [[ $user != 'administrateur' ]]; then
+    if grep -q "$user:" /etc/passwd && [[ $user != 'administrateur' ]]; then
         # Run config script.
         "${SCRIPTS_DIR}/set-syncthing-config.sh" "$user"
     fi
@@ -168,20 +171,21 @@ done <<< "$users"
 # Install GNOME extensions at user level (system level requires special GNOME session).
 extensions=$(find "${RESOURCE_DIR}"/extensions/* -maxdepth 0 -type d)
 # First do /etc/skel for future users.
-for ext in ${extensions}; do
+for ext in $extensions; do
     mkdir -p /etc/skel/.local/share/gnome-shell/extensions
     cp -r "${ext}" /etc/skel/.local/share/gnome-shell/extensions
 done
 # Then do existing users.
 while read -r user; do
-    if [[ $(grep "$user:" /etc/passwd) ]]; then
+    if grep -q "$user:" /etc/passwd; then
         dest="/home/$user/.local/share/gnome-shell/extensions"
-        mkdir -p -m 755 "${dest}"
-        for ext in ${extensions}; do
-            cp -r "${ext}" "${dest}"
+        mkdir -p "$dest"
+        chmod 700 "$(dirname "$dest")" # gnome-shell dir perms
+        for ext in $extensions; do
+            cp -r "$ext" "$dest"
         done
         chown -R $user:$user "/home/$user/.local"
-        chmod -R 755 "/home/$user/.local/share/gnome-shell/extensions"
+        chmod -R 755 "$dest"
     fi
 done <<< "$users"
 
@@ -189,7 +193,7 @@ done <<< "$users"
 # Configure snapd and snap packages
 # ------------------------------------------------------------------------------
 # Set wasta-snap-manager's suggested update defaults.
-if [ $(which snap) ]; then
+if [[ $(which snap) ]]; then
     snap set system refresh.metered=hold
     snap set system refresh.timer='sun5,02:00'
     snap set system refresh.retain=2
@@ -203,93 +207,93 @@ if [ $(which snap) ]; then
     #     snap remove --purge --no-wait skype
     # fi
 
-    # Ensure installation of chromium.
-    if [[ ! -x /snap/bin/chromium ]]; then
-        echo "Installation du paquet snap de chromium (ça peut trainer)..."
-        snap install chromium
-    fi
+    # # Ensure installation of chromium.
+    # if [[ ! -x /snap/bin/chromium ]]; then
+    #     echo "Installation du paquet snap de chromium (ça peut trainer)..."
+    #     snap install chromium
+    # fi
 fi
 
 
-# ------------------------------------------------------------------------------
-# LibreOffice PPA management
-# ------------------------------------------------------------------------------
-LO_54=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-4-*)
-LO_6X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-*)
-LO_7X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-7-*)
-if ! [ -e "${LO_54[0]}" ] \
-    && ! [ -e "${LO_6X[0]}" ] \
-    && ! [ -e "${LO_7X[0]}" ] \
-    && ! [ "${REPO_SERIES}" == "focal" ] \
-    && ! [ "${REPO_SERIES}" == "bionic" ]; then
-    echo "LibreOffice 5.4 PPA not found.  Adding it..."
+# # ------------------------------------------------------------------------------
+# # LibreOffice PPA management
+# # ------------------------------------------------------------------------------
+# LO_54=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-4-*)
+# LO_6X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-*)
+# LO_7X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-7-*)
+# if ! [ -e "${LO_54[0]}" ] \
+#     && ! [ -e "${LO_6X[0]}" ] \
+#     && ! [ -e "${LO_7X[0]}" ] \
+#     && ! [ "${REPO_SERIES}" == "focal" ] \
+#     && ! [ "${REPO_SERIES}" == "bionic" ]; then
+#     echo "LibreOffice 5.4 PPA not found.  Adding it..."
 
-    #key already added by wasta, so no need to use the internet with add-apt-repository
-    #add-apt-repository --yes ppa:libreoffice/libreoffice-5-4
-    cat << EOF >  $APT_SOURCES_D/libreoffice-ubuntu-libreoffice-5-4-$REPO_SERIES.list
-deb http://ppa.launchpad.net/libreoffice/libreoffice-5-4/ubuntu $REPO_SERIES main
-# deb-src http://ppa.launchpad.net/libreoffice/libreoffice-5-4/ubuntu $REPO_SERIES main
-EOF
-fi
+#     #key already added by wasta, so no need to use the internet with add-apt-repository
+#     #add-apt-repository --yes ppa:libreoffice/libreoffice-5-4
+#     cat << EOF >  $APT_SOURCES_D/libreoffice-ubuntu-libreoffice-5-4-$REPO_SERIES.list
+# deb http://ppa.launchpad.net/libreoffice/libreoffice-5-4/ubuntu $REPO_SERIES main
+# # deb-src http://ppa.launchpad.net/libreoffice/libreoffice-5-4/ubuntu $REPO_SERIES main
+# EOF
+# fi
 
-LO_60=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-0-*)
-LO_61=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-1-*)
-LO_62=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-2-*)
-LO_63=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-3-*)
-LO_64=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-4-*)
-if [ -e "${LO_7X[0]}" ]; then
-    if [ -e "${LO_64[0]}" ]; then
-        echo "   LO 6.4 PPA found - removing it."
-        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-4-"*
-    fi
-fi
+# LO_60=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-0-*)
+# LO_61=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-1-*)
+# LO_62=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-2-*)
+# LO_63=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-3-*)
+# LO_64=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-4-*)
+# if [ -e "${LO_7X[0]}" ]; then
+#     if [ -e "${LO_64[0]}" ]; then
+#         echo "   LO 6.4 PPA found - removing it."
+#         rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-4-"*
+#     fi
+# fi
 
-if [ -e "${LO_7X[0]}" ] \
-    || [ -e "${LO_64[0]}" ]; then
-    if [ -e "${LO_63[0]}" ]; then
-        echo "   LO 6.3 PPA found - removing it."
-        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-3-"*
-    fi
-fi
+# if [ -e "${LO_7X[0]}" ] \
+#     || [ -e "${LO_64[0]}" ]; then
+#     if [ -e "${LO_63[0]}" ]; then
+#         echo "   LO 6.3 PPA found - removing it."
+#         rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-3-"*
+#     fi
+# fi
 
-if [ -e "${LO_7X[0]}" ] \
-    || [ -e "${LO_64[0]}" ] \
-    || [ -e "${LO_63[0]}" ]; then
-    if [ -e "${LO_62[0]}" ]; then
-        echo "   LO 6.2 PPA found - removing it."
-        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-2-"*
-    fi
-fi
+# if [ -e "${LO_7X[0]}" ] \
+#     || [ -e "${LO_64[0]}" ] \
+#     || [ -e "${LO_63[0]}" ]; then
+#     if [ -e "${LO_62[0]}" ]; then
+#         echo "   LO 6.2 PPA found - removing it."
+#         rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-2-"*
+#     fi
+# fi
 
-if [ -e "${LO_7X[0]}" ] \
-    || [ -e "${LO_64[0]}" ] \
-    || [ -e "${LO_63[0]}" ] \
-    || [ -e "${LO_62[0]}" ]; then
-    if [ -e "${LO_61[0]}" ]; then
-        echo "   LO 6.1 PPA found - removing it."
-        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-1-"*
-    fi
-fi
+# if [ -e "${LO_7X[0]}" ] \
+#     || [ -e "${LO_64[0]}" ] \
+#     || [ -e "${LO_63[0]}" ] \
+#     || [ -e "${LO_62[0]}" ]; then
+#     if [ -e "${LO_61[0]}" ]; then
+#         echo "   LO 6.1 PPA found - removing it."
+#         rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-1-"*
+#     fi
+# fi
 
-if [ -e "${LO_7X[0]}" ] \
-    || [ -e "${LO_64[0]}" ] \
-    || [ -e "${LO_63[0]}" ] \
-    || [ -e "${LO_62[0]}" ] \
-    || [ -e "${LO_61[0]}" ]; then
-    if [ -e "${LO_60[0]}" ]; then
-        echo "   LO 6.0 PPA found - removing it."
-        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-0-"*
-    fi
-fi
+# if [ -e "${LO_7X[0]}" ] \
+#     || [ -e "${LO_64[0]}" ] \
+#     || [ -e "${LO_63[0]}" ] \
+#     || [ -e "${LO_62[0]}" ] \
+#     || [ -e "${LO_61[0]}" ]; then
+#     if [ -e "${LO_60[0]}" ]; then
+#         echo "   LO 6.0 PPA found - removing it."
+#         rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-0-"*
+#     fi
+# fi
 
-LO_5X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-*)
-LO_6X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-*)
-if [ -e "${LO_6X[0]}" ]; then
-    if [ -e "${LO_5X[0]}" ]; then
-        echo "   LO 5.x PPA found - removing it."
-        rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-"*
-    fi
-fi
+# LO_5X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-*)
+# LO_6X=(${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-6-*)
+# if [ -e "${LO_6X[0]}" ]; then
+#     if [ -e "${LO_5X[0]}" ]; then
+#         echo "   LO 5.x PPA found - removing it."
+#         rm "${APT_SOURCES_D}/libreoffice-ubuntu-libreoffice-5-"*
+#     fi
+# fi
 
 # ------------------------------------------------------------------------------
 # LibreOffice Extensions - bundle install (for all users)
@@ -297,20 +301,20 @@ fi
 #   "unopkg list --bundled" - exists since 2010
 # ------------------------------------------------------------------------------
 LO_EXTENSION_DIR=/usr/lib/libreoffice/share/extensions
-if [ -x "${LO_EXTENSION_DIR}/" ]; then
+if [[ -x ${LO_EXTENSION_DIR}/ ]]; then
     for EXT_FILE in "${RESOURCE_DIR}/"*.oxt ; do
-        if [ -f "${EXT_FILE}" ]; then
-            LO_EXTENSION=$(basename --suffix=.oxt ${EXT_FILE})
-            if [ -e "${LO_EXTENSION_DIR}/${LO_EXTENSION}" ]; then
+        if [[ -f $EXT_FILE ]]; then
+            LO_EXTENSION=$(basename --suffix=.oxt "$EXT_FILE")
+            if [[ -e ${LO_EXTENSION_DIR}/${LO_EXTENSION} ]]; then
                 echo "  Replacing ${LO_EXTENSION} extension"
-                rm -rf "${LO_EXTENSION_DIR}/${LO_EXTENSION}"
+                rm -rf "${LO_EXTENSION_DIR:?}/${LO_EXTENSION}"
             else
                 echo "  Adding ${LO_EXTENSION} extension"
             fi
             unzip -q -d "${LO_EXTENSION_DIR}/${LO_EXTENSION}" \
                 "${RESOURCE_DIR}/${LO_EXTENSION}.oxt"
         else
-            [ "$DEBUG" ] && echo "DEBUG: no .oxt files to install"
+            [[ $DEBUG ]] && echo "DEBUG: no .oxt files to install"
         fi
     done
 else
@@ -325,7 +329,7 @@ fi
 # This is good for SSDs (less writing), and good for HDDs (no stalling).
 # zswap should NOT be used with zram (uncompress/recompress shuffling).
 
-if [ -e "/usr/bin/wasta-enable-zswap" ]; then
+if [[ -e /usr/bin/wasta-enable-zswap ]]; then
     wasta-enable-zswap auto
 fi
 
@@ -335,7 +339,7 @@ fi
 # ------------------------------------------------------------------------------
 SCHEMA_DIR=/usr/share/glib-2.0/schemas
 echo && echo "Compile changed gschema default preferences"
-[ "$DEBUG" ] && glib-compile-schemas --strict ${SCHEMA_DIR}/
+[[ $DEBUG ]] && glib-compile-schemas --strict ${SCHEMA_DIR}/
 glib-compile-schemas ${SCHEMA_DIR}/
 
 # ------------------------------------------------------------------------------
@@ -343,18 +347,18 @@ glib-compile-schemas ${SCHEMA_DIR}/
 # !! Not removed if wasta-custom-${BRANCH_ID} is uninstalled !!
 # ------------------------------------------------------------------------------
 REBUILD_CACHE=NO
-TTF=(${RESOURCE_DIR}/*.ttf)
-if [ -e "${TTF[0]}" ]; then
+TTF=("${RESOURCE_DIR}"/*.ttf)
+if [[ -e ${TTF[0]} ]]; then
     echo && echo "installing extra fonts..."
     mkdir -p "/usr/share/fonts/truetype/${BRANCH_ID}"
     cp "${RESOURCE_DIR}/"*.ttf "/usr/share/fonts/truetype/${BRANCH_ID}"
     chmod -R +r "/usr/share/fonts/truetype/${BRANCH_ID}"
     REBUILD_CACHE=YES
 else
-    [ "$DEBUG" ] && echo "DEBUG: no fonts to install"
+    [[ $DEBUG ]] && echo "DEBUG: no fonts to install"
 fi
 
-if [ "${REBUILD_CACHE^^}" == "YES" ]; then
+if [[ ${REBUILD_CACHE^^} == "YES" ]]; then
     fc-cache -fs
 fi
 
@@ -385,7 +389,7 @@ update-locale LC_ALL="fr_FR.UTF-8"
 #     18.04: ssh_host_ecdsa_key
 # ------------------------------------------------------------------------------
 dpkg --status openssh-server 1>/dev/null 2>&1
-if [ $? == 0 ] \
+if [ $? -eq 0 ] \
 && ! [ -e /etc/ssh/ssh_host_dsa_key ] \
 && ! [ -e /etc/ssh/ssh_host_ecdsa_key ]; then
     dpkg-reconfigure openssh-server  #tested - works without conflicting with apt-get install. Also OK with apt-get update?

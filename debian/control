@@ -2,14 +2,14 @@ Source: wasta-custom-car
 Section: utils
 Priority: optional
 Maintainer: Nate Marti <nate_marti@sil.org>
-Build-Depends: debhelper (>= 9.0.0)
-Standards-Version: 3.9.7
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.6.2
 
 Package: wasta-custom-car
 Architecture: all
 Depends: ${misc:Depends},
  wasta-backgrounds,
- wasta-gnome-focal,
+ wasta-gnome|wasta-gnome-focal,
  snapd,
  syncthing
 Recommends: firefox-locale-fr,
@@ -36,7 +36,6 @@ Recommends: firefox-locale-fr,
  libreoffice-help-fr,
  libreoffice-l10n-fr,
  mythes-fr,
- skypeforlinux,
  thunderbird-locale-fr,
  traffic-cop,
  wfrench
